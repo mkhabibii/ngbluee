@@ -5,7 +5,11 @@
 //     './src/**/*.{vue,js,ts,jsx,tsx}', // Ini sangat penting!
 //   ],
 //   theme: {
-//     extend: {},
+//     extend: {
+//       fontFamily: {
+//         manrope: ['Manrope', 'sans-serif'],
+//       }
+//     },
 //   },
 //   plugins: [
 //     tailwindcss(),
