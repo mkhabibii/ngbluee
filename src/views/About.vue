@@ -12,6 +12,5 @@
 .about-section {
   min-height: 100vh;
   padding: 80px 50px;
-  background-color: #f4f4f4;
 }
 </style>
