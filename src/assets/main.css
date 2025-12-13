@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap');
 @import "tailwindcss";
 
-body {
-  font-family: 'Manrope', sans-serif;
+@theme {
+  /* ! Font */
+  --font-manrope: 'Manrope', sans-serif;
+  --font-sofia: 'Sofia Sans Condensed', sans-serif;
 }
+
+body,
+html {
+  background-color: #f7f7f7;
+} 
