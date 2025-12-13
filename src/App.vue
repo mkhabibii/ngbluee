@@ -8,6 +8,24 @@ import Galeri from './views/Galeri.vue'
 import Credentials from './views/Credentials.vue'
 import ContactMe from './views/ContactMe.vue'
 import Footer from './components/Footer.vue'
+import Lenis from 'lenis'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  const lenis = new Lenis({
+    smooth: true,
+    lerp: 0.08,
+  });
+
+  function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+  }
+
+  requestAnimationFrame(raf)
+
+  lenis.on('scroll', ScrollTrigger.update)
+})
 </script>
 
 <template>

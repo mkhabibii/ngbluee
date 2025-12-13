@@ -22,7 +22,7 @@ onUnmounted(() => {
 <template>
   <header
     :class="[
-      'sticky top-0 z-50 transition-all duration-300',
+      'sticky top-0 z-50 transition-all duration-300 isolate',
       isScrolled
         ? 'border-white/5 backdrop-blur border-b backdrop-filter bg-black/20 '
         : 'bg-transparent',
@@ -33,15 +33,15 @@ onUnmounted(() => {
       aria-label="Global"
     >
       <!-- Brand Name -->
-      <div class="flex lg:flex-1 font-sofia">
-        <a href="#" class="text-3xl font-extrabold leading-[0.75] tracking-tight">
+      <div class="flex lg:flex-1 font-sofia mix-blend-difference isolate">
+        <a href="#" class="text-3xl text-black font-extrabold leading-[0.75] tracking-tight">
           <span class="block">MKH.</span>
           <span class="block">HABIBI</span>
         </a>
       </div>
 
       <!-- Desktop Menu -->
-      <div class="hidden lg:flex lg:gap-x-12 font-manrope">
+      <div class="hidden lg:flex lg:gap-x-12 font-manrope mix-blend-difference">
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Essence</a>
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Toolkit</a>
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Showcase</a>
@@ -50,10 +50,10 @@ onUnmounted(() => {
       </div>
 
       <!-- Right Side -->
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4 font-manrope">
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4 font-manrope mix">
         <a
           href="#"
-          class="text-md font-bold px-6 py-2 rounded-full border-1 border hover:bg-black hover:text-white transition"
+          class="text-md text-black font-bold px-6 py-2 rounded-full border-1 border hover:bg-black hover:text-white transition"
         >
           Get In Touch
         </a>

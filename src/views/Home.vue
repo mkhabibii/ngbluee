@@ -6,7 +6,7 @@
         <span class="block text-xl lg:text-4xl font-light mb-[-0.1em]"> Enthusiast </span>
 
         <h1
-          class="font-sofia text-[12vw] lg:text-[14rem] font-extrabold leading-[0.75] tracking-[-0.08em]"
+          class="font-sofia text-[12vw] lg:text-[14rem] font-[780] leading-[0.75] tracking-[-0.08em]"
         >
           WEB&nbsp;DEVELOPER
         </h1>
@@ -40,3 +40,10 @@
     </div>
   </section>
 </template>
+
+<script setup>
+import { onMounted } from 'vue'
+import gsap from 'gsap'
+
+
+</script>
