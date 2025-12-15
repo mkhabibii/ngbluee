@@ -1,8 +1,7 @@
 <script setup>
 import Navbar from './components/Navbar.vue'
 import Home from './views/Home.vue'
-import About from './views/About.vue'
-import Skillset from './views/Skillset.vue'
+import Essence from './views/Essence.vue'
 import Porto from './views/Porto.vue'
 import Galeri from './views/Galeri.vue'
 import Credentials from './views/Credentials.vue'
@@ -10,6 +9,7 @@ import ContactMe from './views/ContactMe.vue'
 import Footer from './components/Footer.vue'
 import Lenis from 'lenis'
 import { onMounted } from 'vue'
+import { ScrollTrigger } from 'gsap/all'
 
 onMounted(() => {
   const lenis = new Lenis({
@@ -33,8 +33,7 @@ onMounted(() => {
 
   <main>
     <Home id="home" />
-    <About id="about" />
-    <Skillset id="skills" />
+    <Essence id="about" />
     <Porto id="projects" />
     <Galeri id="gallery" />
     <Credentials id="credential" />

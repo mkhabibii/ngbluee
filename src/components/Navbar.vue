@@ -1,31 +1,9 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { Dialog, DialogPanel, TransitionRoot, TransitionChild } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-
-const mobileMenuOpen = ref(false)
-const isScrolled = ref(false)
-
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 20
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
-</script>
-
 <template>
   <header
+    ref="navbar"
     :class="[
-      'sticky top-0 z-50 transition-all duration-300 isolate',
-      isScrolled
-        ? 'border-white/5 backdrop-blur border-b backdrop-filter bg-black/20 '
-        : 'bg-transparent',
+      'navbar sticky top-0 z-50 transition-all duration-300',
+      isScrolled ? 'border-white/5 backdrop-blur backdrop-filter bg-black/20' : 'bg-transparent',
     ]"
   >
     <nav
@@ -33,7 +11,7 @@ onUnmounted(() => {
       aria-label="Global"
     >
       <!-- Brand Name -->
-      <div class="flex lg:flex-1 font-sofia mix-blend-difference isolate">
+      <div class="flex lg:flex-1 font-sofia">
         <a href="#" class="text-3xl text-black font-extrabold leading-[0.75] tracking-tight">
           <span class="block">MKH.</span>
           <span class="block">HABIBI</span>
@@ -41,16 +19,16 @@ onUnmounted(() => {
       </div>
 
       <!-- Desktop Menu -->
-      <div class="hidden lg:flex lg:gap-x-12 font-manrope mix-blend-difference">
+      <div class="hidden lg:flex lg:gap-x-20 font-manrope">
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Essence</a>
-        <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Toolkit</a>
+        <!-- <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Toolkit</a> -->
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Showcase</a>
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Exhibit</a>
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Credentials</a>
       </div>
 
       <!-- Right Side -->
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4 font-manrope mix">
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4 font-manrope">
         <a
           href="#"
           class="text-md text-black font-bold px-6 py-2 rounded-full border-1 border hover:bg-black hover:text-white transition"
@@ -111,7 +89,7 @@ onUnmounted(() => {
               </a>
               <button
                 type="button"
-                class="-m-2.5 rounded-md p-2.5 text-black-800 hover:text-gray-600"
+                class="-m-2.5 rounded-md p-2.5 text-black hover:text-gray-600"
                 @click="mobileMenuOpen = false"
               >
                 <span class="sr-only">Close menu</span>
@@ -163,3 +141,60 @@ onUnmounted(() => {
     </TransitionRoot>
   </header>
 </template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Dialog, DialogPanel, TransitionRoot, TransitionChild } from '@headlessui/vue'
+import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import gsap from 'gsap'
+
+const mobileMenuOpen = ref(false)
+const isScrolled = ref(false)
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 20
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onMounted(() => {
+  gsap.from('header', {
+    opacity: 0,
+    filter: 'blur(90px)',
+    duration: 3,
+    ease: 'power3.out',
+  })
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+
+const navbar = ref(null)
+
+onMounted(() => {
+  const darkZones = document.querySelectorAll('.dark-zone')
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navbar.value?.classList.add('navbar--light')
+        } else {
+          navbar.value?.classList.remove('navbar--light')
+        }
+      })
+    },
+    {
+      rootMargin: '-80px 0px -80% 0px',
+      threshold: 0,
+    }
+  )
+
+  darkZones.forEach((zone) => observer.observe(zone))
+})
+
+
+</script>

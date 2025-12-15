@@ -12,3 +12,11 @@ body,
 html {
   background-color: #f7f7f7;
 }
+
+.navbar--light a {
+  color: white !important;
+}
+
+.navbar--light button {
+  color: white !important;
+}
