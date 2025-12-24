@@ -20,7 +20,7 @@
 
       <!-- Desktop Menu -->
       <div class="hidden lg:flex lg:gap-x-20 font-manrope">
-        <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Essence</a>
+        <a href="#about" class="text-lg font-semibold hover:text-gray-600 transition">Essence</a>
         <!-- <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Toolkit</a> -->
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Showcase</a>
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Exhibit</a>
@@ -160,12 +160,14 @@ onMounted(() => {
 })
 
 onMounted(() => {
-  gsap.from('header', {
-    opacity: 0,
-    filter: 'blur(90px)',
-    duration: 3,
-    ease: 'power3.out',
-  })
+  gsap.from(
+    'header',
+    {
+      filter: 'opacity(0)',
+      duration: 2,
+      ease: 'power4.out',
+    }
+  )
 })
 
 onUnmounted(() => {
@@ -190,11 +192,9 @@ onMounted(() => {
     {
       rootMargin: '-80px 0px -80% 0px',
       threshold: 0,
-    }
+    },
   )
 
   darkZones.forEach((zone) => observer.observe(zone))
 })
-
-
 </script>

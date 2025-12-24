@@ -1,5 +1,5 @@
 <template>
-  <section class="landingP relative min-h-screen overflow-hidden flex">
+  <section class="landingP relative overflow-hidden flex">
     <div class="w-full max-w-7xl mx-auto px-6 lg:px-12 relative">
       <!-- HERO TITLE  -->
       <div class="absolute top-12 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
@@ -24,7 +24,7 @@
         <div class="flex flex-col lg:flex-row items-end gap-4 lg:gap-8">
           <!-- TEXT -->
           <div
-            class="sub-title font-sofia font-bold text-sm sm:text-base md:text-lg lg:text-2xl tracking-[-0.05em] text-center  lg:text-left"
+            class="sub-title font-sofia font-bold text-sm sm:text-base md:text-lg lg:text-2xl tracking-[-0.05em] text-center lg:text-left"
           >
             <div>/ WEB DEVELOPMENT</div>
             <div>/ WEB DESIGN (UX/UI)</div>
@@ -39,6 +39,17 @@
               alt="Habibi"
             />
           </div>
+        </div>
+      </div>
+
+      <div class="addYap mt-14 lg:mt-18 lg:mb-18">
+        <div class="yap">
+          <p class="font-spline font-thin text-center text-sm md:text-md lg:text-lg">
+            ORA PERLU PADANG, SEMENTING MURUB
+          </p>
+          <p class="font-spline font-thin text-center text-sm md:text-md lg:text-lg">
+            SERUPUT KOPI lalu MENIKMATI DUNIA INI
+          </p>
         </div>
       </div>
     </div>
@@ -64,16 +75,16 @@ onMounted(() => {
       .map((i) => chars[i]),
   ]
 
-  // HERO 
+  // Hero Title
   gsap.from(orderedChars, {
     y: -120,
     opacity: 0,
-    duration: 1.8,
+    duration: 2,
     ease: 'power4.out',
-    stagger: 0.08,
+    stagger: 0.1,
   })
 
-  // SUB TITLE 
+  // Sub Title
   gsap.from('.sub-title', {
     y: -30,
     opacity: 0,
@@ -82,14 +93,14 @@ onMounted(() => {
     stagger: 0.2,
     delay: 2,
   })
-  
+
   // Image
   gsap.from('.habibi-img', {
     clipPath: 'inset(0 0 100% 0)',
     opacity: 0,
     duration: 3,
     ease: 'power4.out',
-    delay: 2, 
+    delay: 2,
   })
 })
 </script>

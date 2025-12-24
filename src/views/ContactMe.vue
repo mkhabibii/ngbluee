@@ -1,4 +1,4 @@
 <template>
 
-  <p>ini contact me</p>
+  <p class="bg-yellow-400">ini contact me</p>
 </template>
