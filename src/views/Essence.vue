@@ -79,7 +79,9 @@
           Based in Yogyakarta, I am a web developer and UI designer dedicated to building intuitive
           and immersive web applications. My journey started with a curiosity for how things work on
           the internet, which quickly evolved into a passion for clean code and pixel-perfect
-          design.
+          design. and immersive web applications. My journey started with a curiosity for how things
+          work on the internet, which quickly evolved into a passion for clean code and
+          pixel-perfect design.
         </p>
       </div>
 
