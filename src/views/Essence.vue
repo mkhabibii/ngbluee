@@ -1,20 +1,12 @@
 <template>
+  <!-- Header Contact Links -->
   <div
-    class="w-full max-w-7xl mx-auto px-6 lg:px-12 mt-12 md:mt-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative"
-    id="about"
+    class="w-full max-w-7xl mx-auto px-6 lg:px-12 mt-32 md:mt-40 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 font-mono text-xs md:text-lg uppercase tracking-widest z-10 relative"
   >
-    <!-- Email -->
     <div class="flex flex-col gap-2">
-      <span class="font-spline text-xs md:text-lg lg:text-xl font-light uppercase"
-        >Available for collaboration</span
-      >
-      <a
-        href="https://mailto:habiboy0607@gmail.com"
-        target="blank"
-        class="group flex items-center gap-2"
-      >
-        <span
-          class="font-sofia leading-[0.75] text-sm md:text-md lg:text-3xl font-bold border-b-3 border-black hover:text-gray-500 group-hover:border-white transition-colors"
+      <span class="font-semibold">Available for collaboration</span>
+      <a href="mailto:habiboy0607@gmail.com" class="group flex items-center gap-2">
+        <span class="border-b border-gray-700 pb-0.5 group-hover:border-white transition-colors"
           >habiboy0607@gmail.com</span
         >
         <svg
@@ -25,7 +17,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="w-3 w-3 md:w-6 md:h-6 transform rotate-95 group-hover:rotate-45 transition-transform duration-300"
+          class="w-6 h-6 transform rotate-45 group-hover:rotate-0 transition-transform duration-300"
         >
           <line x1="7" y1="17" x2="17" y2="7"></line>
           <polyline points="7 7 17 7 17 17"></polyline>
@@ -33,19 +25,15 @@
       </a>
     </div>
 
-    <!-- Linkedin -->
+    <!-- Right: LinkedIn/Social -->
     <div class="flex flex-col gap-2 md:text-right md:items-end">
-      <span
-        class="font-spline text-xs md:text-lg lg:text-xl font-light uppercase tracking-[-0.07em]"
-        >The Link Up</span
-      >
+      <span class="font-semibold">Recent Work</span>
       <a
         href="https://www.linkedin.com/in/muhammadkhoerulhabibi/"
+        class="group flex items-center gap-2"
         target="blank"
-        class="group flex items-center gap-2 md:flex-row-reverse"
       >
-        <span
-          class="font-sofia leading-[0.75] text-sm md:text-md lg:text-3xl font-bold border-b-3 border-black hover:text-gray-500 group-hover:border-white transition-colors duration-300"
+        <span class="border-b border-gray-700 pb-0.5 group-hover:border-white transition-colors"
           >LinkedIn Profile</span
         >
         <svg
@@ -56,7 +44,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="w-3 w-3 md:w-6 md:h-6 transform rotate-95 group-hover:rotate-45 transition-transform duration-300"
+          class="w-6 h-6 transform rotate-45 group-hover:rotate-0 transition-transform duration-300"
         >
           <line x1="7" y1="17" x2="17" y2="7"></line>
           <polyline points="7 7 17 7 17 17"></polyline>
@@ -66,8 +54,9 @@
   </div>
 
   <!-- Main Title Area -->
-  <div class="title mt-12 sm:mt-16 lg:mt-20 mb-1">
+  <div class="title mt-12 sm:mt-12 lg:mt-8 mb-6 relative z-10">
     <h2
+      id="about"
       ref="aboutTitle"
       class="about-title text-center font-bold font-sofia text-[12vw] lg:text-[14rem] tracking-[-0.07em] leading-none"
     >
@@ -75,46 +64,41 @@
     </h2>
   </div>
 
-  <section class="about-section  bg-black relative w-full py-12 lg:py-16">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 ">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start ">
-        <div class="bio-content space-y-8 reveal-text lg:space-y-8 ">
-          <h3 class="font-manrope text-3xl lg:text-5xl font-bold leading-tight tracking-[-0.06em]">
-            Hi, I'm Muhammad Khoerul Habibi
-          </h3>
+  <!-- Content Area -->
+  <section class="about-section min-h-screen w-full max-w-7xl mx-auto px-6 lg:px-12 relative">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <!-- Bio Content with Scroll Reveal -->
+      <div class="bio-content space-y-8">
+        <h3
+          class="reveal-text text-2xl lg:text-4xl font-bold leading-tight text-gray-700 font-manrope"
+        >
+          I craft digital experiences that blend aesthetics with functionality.
+        </h3>
 
-          <p class="font-spline text-xl lg:text-2xl font-medium leading-snug text-justify">
-            "For me, Design is not just decoration, but a tool for influence and growth"
-          </p>
+        <p class="reveal-text text-lg lg:text-xl leading-relaxed text-gray-800 font-manrope">
+          Based in Yogyakarta, I am a web developer and UI designer dedicated to building intuitive
+          and immersive web applications. My journey started with a curiosity for how things work on
+          the internet, which quickly evolved into a passion for clean code and pixel-perfect
+          design.
+        </p>
+      </div>
 
-          <p class="text-base font-manrope text-justify lg:text-lg leading-relaxed text-gray-300">
-            A web developer and UI designer based in Yogyakarta, dedicated to building intuitive and
-            immersive web applications. My journey started with curiosity for how things work on the
-            internet, which quickly evolved into a passion for clean code and pixel-perfect design.
-            I love simple interfaces with deep meaning - As well as simple things that bring true
-            pleasure
-          </p>
-        </div>
+      <!-- Skills / Tech Stack -->
+      <div class="skills-content">
+        <h4
+          class="sm:text-sm lg:text-3xl text-center font-bold font-manrope tracking-[0.3em] mb-8 uppercase border-b border-gray-800 pb-2"
+        >
+          Technical Arsenal
+        </h4>
 
-        <div class="skills-content lg:pt-2 ">
-          <h4
-            class="text-sm md:text-lg lg:text-5xl font-sofia font-extrabold text-white mb-6 "
+        <div class="flex flex-wrap gap-3">
+          <span
+            v-for="(skill, index) in skills"
+            :key="index"
+            class="skill-tag px-4 py-2 border border-black/50 rounded-full sm:text-sm lg:text-base hover:bg-black hover:text-white transition-all duration-300 cursor-default backdrop-blur-sm"
           >
-            Things I Code With
-          </h4>
-
-          <div class="flex flex-wrap gap-2.5">
-            <span
-              v-for="(skill, index) in skills"
-              :key="index"
-              class="skill-tag group relative px-5 py-2 border border-gray-700 rounded-full text-md text-gray-300 hover:border-white hover:text-white transition-all duration-300 cursor-default overflow-hidden"
-            >
-              <span class="relative z-10">{{ skill }}</span>
-              <span
-                class="shimmer absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              ></span>
-            </span>
-          </div>
+            {{ skill }}
+          </span>
         </div>
       </div>
     </div>
@@ -130,16 +114,18 @@ import SplitType from 'split-type'
 gsap.registerPlugin(ScrollTrigger)
 
 const skills = ref([
+  'PHP',
   'Laravel',
-  'Vue Js',
-  'Bootstrap',
+  'Vue',
   'Tailwind CSS',
+  'Bootstrap',
   'GSAP',
-  'Node.js',
+  'Node Js',
   'Figma',
   'UI/UX Design',
   'Git',
-  'Vite',
+  'Postman',
+  'MySQL',
 ])
 
 onMounted(() => {
@@ -159,7 +145,7 @@ onMounted(() => {
         trigger: '.about-title',
         start: 'top 80%',
         end: 'top 30%',
-        scrub: 0.6,
+        scrub: 1,
       },
     })
     .to(title.chars, {
@@ -172,16 +158,20 @@ onMounted(() => {
       },
     })
 
+  // Text Reveal Effect (Dim to Bright)
   const revealElements = document.querySelectorAll('.reveal-text')
 
   revealElements.forEach((element) => {
-    const split = new SplitType(element, { types: 'chars' })
+    // Split text into characters
+    const split = new SplitType(element, { types: 'words, chars' })
 
+    // Set initial state: Dim/Silver
     gsap.set(split.chars, {
-      color: '#373737',
-      opacity: 0.8,
+      color: '#4b5563', // gray-600 (Dim)
+      opacity: 0.5,
     })
 
+    // Animate to Bright/White
     gsap.to(split.chars, {
       scrollTrigger: {
         trigger: element,
@@ -189,47 +179,22 @@ onMounted(() => {
         end: 'bottom 50%',
         scrub: 0.5,
       },
-      color: '#fff',
+      color: '#000000',
       opacity: 1,
-      stagger: 0.02,
+      stagger: 0.1,
       ease: 'none',
     })
-  })
-
-  gsap.set('.skill-tag', {
-    opacity: 0,
-    y: 20,
-  })
-
-  gsap.to('.skill-tag', {
-    scrollTrigger: {
-      trigger: '.skills-content',
-      start: 'top 85%',
-      once: true,
-    },
-    opacity: 1,
-    y: 0,
-    duration: 0.6,
-    stagger: 0.05,
-    ease: 'back.out(1.5)',
   })
 })
 </script>
 
 <style scoped>
 .about-title {
+  /* line-height: 1; */
   overflow: hidden;
 }
 
 .about-title .char {
   display: inline-block;
-}
-
-.skill-tag {
-  position: relative;
-}
-
-.shimmer {
-  pointer-events: none;
 }
 </style>

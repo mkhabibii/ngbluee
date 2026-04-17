@@ -75,6 +75,7 @@ import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
+
 gsap.registerPlugin(ScrollTrigger)
 
 const filters = ['All', 'Web', 'UI/UX', 'Mobile']
@@ -159,7 +160,6 @@ onMounted(() => {
         from: 'center',
       },
     })
-
   // Separator Line Animation
   gsap.to('.separator', {
     scrollTrigger: {
