@@ -4,6 +4,7 @@
     :class="[
       'navbar sticky top-0 z-50 transition-all duration-300',
       isScrolled ? 'border-white/5 backdrop-blur backdrop-filter bg-black/20' : 'bg-transparent',
+      isDark ? 'text-white' : 'text-black',
     ]"
   >
     <nav
@@ -12,7 +13,11 @@
     >
       <!-- Brand Name -->
       <div class="flex lg:flex-1 font-sofia">
-        <a href="#" class="text-3xl text-black font-extrabold leading-[0.75] tracking-tight">
+        <a
+          href="#"
+          class="text-3xl font-extrabold leading-[0.75] tracking-tight"
+          :class="isDark ? 'text-white' : 'text-black'"
+        >
           <span class="block">MKH.</span>
           <span class="block">HABIBI</span>
         </a>
@@ -21,9 +26,7 @@
       <!-- Desktop Menu -->
       <div class="hidden lg:flex lg:gap-x-20 font-manrope">
         <a href="#about" class="text-lg font-semibold hover:text-gray-600 transition">Essence</a>
-        <!-- <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Toolkit</a> -->
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Showcase</a>
-        <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Exhibit</a>
         <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Credentials</a>
       </div>
 
@@ -31,7 +34,12 @@
       <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4 font-manrope">
         <a
           href="#"
-          class="text-md text-black font-bold px-6 py-2 rounded-full border-1 border hover:bg-black hover:text-white transition"
+          class="text-md text-black font-bold px-6 py-2 rounded-full border-1 border transition"
+          :class="
+            isDark
+              ? 'text-white border-white hover:bg-white hover:text-black'
+              : 'text-black border-black hover:bg-black hover:text-white'
+          "
         >
           Get In Touch
         </a>
@@ -118,11 +126,6 @@
                   <a
                     href="#"
                     class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-medium hover:bg-black/10 hover:text-white"
-                    >Exhibit</a
-                  >
-                  <a
-                    href="#"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-medium hover:bg-black/10 hover:text-white"
                     >Credentials</a
                   >
                 </div>
@@ -160,14 +163,11 @@ onMounted(() => {
 })
 
 onMounted(() => {
-  gsap.from(
-    'header',
-    {
-      filter: 'opacity(0)',
-      duration: 2,
-      ease: 'power4.out',
-    }
-  )
+  gsap.from('header', {
+    filter: 'opacity(0)',
+    duration: 2,
+    ease: 'power4.out',
+  })
 })
 
 onUnmounted(() => {
@@ -175,6 +175,7 @@ onUnmounted(() => {
 })
 
 const navbar = ref(null)
+const isDark = ref(false)
 
 onMounted(() => {
   const darkZones = document.querySelectorAll('.dark-zone')
@@ -183,15 +184,14 @@ onMounted(() => {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          navbar.value?.classList.add('navbar--light')
+          isDark.value = true
         } else {
-          navbar.value?.classList.remove('navbar--light')
+          isDark.value = false
         }
       })
     },
     {
-      rootMargin: '-80px 0px -80% 0px',
-      threshold: 0,
+      threshold: 0.3,
     },
   )
 

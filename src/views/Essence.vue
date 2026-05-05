@@ -54,28 +54,28 @@
   </div>
 
   <!-- Main Title Area -->
-  <div class="title mt-12 sm:mt-12 lg:mt-8 mb-6 relative z-10">
+  <div class="title mt-12 sm:mt-6 lg:mt-16 relative z-10">
     <h2
       id="about"
       ref="aboutTitle"
-      class="about-title text-center font-bold font-sofia text-[12vw] lg:text-[14rem] tracking-[-0.07em] leading-none"
+      class="about-title text-center font-bold font-sofia text-[12vw] lg:text-[10rem] tracking-[-0.07em] leading-none"
     >
       ABOUT ME
     </h2>
   </div>
 
   <!-- Content Area -->
-  <section class="about-section min-h-screen w-full max-w-7xl mx-auto px-6 lg:px-12 relative">
+  <section class="about-section w-full max-w-7xl mx-auto px-6 lg:px-12 relative mt-1 lg:mt-12 lg:mb-20">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
       <!-- Bio Content with Scroll Reveal -->
       <div class="bio-content space-y-8">
         <h3
-          class="reveal-text text-2xl lg:text-4xl font-bold leading-tight text-gray-700 font-manrope"
+          class="reveal-text text-xl lg:text-4xl font-bold leading-tight text-gray-700 font-manrope"
         >
           I craft digital experiences that blend aesthetics with functionality.
         </h3>
 
-        <p class="reveal-text text-lg lg:text-xl leading-relaxed text-gray-800 font-manrope">
+        <p class="reveal-text text-md lg:text-xl leading-relaxed text-gray-800 font-manrope text-justify">
           Based in Yogyakarta, I am a web developer and UI designer dedicated to building intuitive
           and immersive web applications. My journey started with a curiosity for how things work on
           the internet, which quickly evolved into a passion for clean code and pixel-perfect
@@ -169,8 +169,8 @@ onMounted(() => {
 
     // Set initial state: Dim/Silver
     gsap.set(split.chars, {
-      color: '#4b5563', // gray-600 (Dim)
-      opacity: 0.5,
+      color: '#4b5563', 
+      opacity: 0.2,
     })
 
     // Animate to Bright/White

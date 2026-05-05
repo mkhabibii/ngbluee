@@ -3,7 +3,6 @@ import Navbar from './components/Navbar.vue'
 import Home from './views/Home.vue'
 import Essence from './views/Essence.vue'
 import Porto from './views/Porto.vue'
-import Galeri from './views/Galeri.vue'
 import Credentials from './views/Credentials.vue'
 import ContactMe from './views/ContactMe.vue'
 import Footer from './components/Footer.vue'
@@ -35,7 +34,6 @@ onMounted(() => {
     <Home id="home" />
     <Essence id="about" />
     <Porto id="projects" />
-    <Galeri id="gallery" />
     <Credentials id="credential" />
     <ContactMe id="contact" />
   </main>
