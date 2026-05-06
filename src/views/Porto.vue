@@ -2,12 +2,15 @@
   <div class="relative w-full h-[300px] overflow-hidden bg-[#f3f3f3]">
     <!-- BACKGROUND HITAM (SHAPE) -->
     <div
-      class="absolute inset-0 bg-black z-0"
+      class="absolute inset-0 bg-black z-0 will-change-transform"
       style="clip-path: polygon(0 66%, 100% 14%, 100% 100%, 0% 100%)"
     ></div>
 
     <!-- MARQUEE HITAM -->
-    <div class="absolute left-[-30%] w-[160%] rotate-[-6deg] z-20 border-6 border-b-white" style="top: 120px">
+    <div
+      class="absolute left-[-30%] w-[160%] rotate-[-6deg] z-20 border-6 border-b-white"
+      style="top: 120px"
+    >
       <div class="flex whitespace-nowrap py-6 animate-[marquee-left_20s_linear_infinite]">
         <template v-for="n in 10" :key="n">
           <span class="flex items-center text-2xl font-extrabold text-white px-8 font-manrope">
@@ -22,7 +25,9 @@
     <div class="absolute left-[-30%] w-[160%] rotate-[6deg] z-30" style="top: 120px">
       <div class="flex whitespace-nowrap py-6 animate-[marquee-right_20s_linear_infinite]">
         <template v-for="n in 10" :key="n">
-          <span class="flex items-center text-2xl font-extrabold text-black py-5 px-8 bg-[#e9e9f2] font-manrope">
+          <span
+            class="flex items-center text-2xl font-extrabold text-black py-5 px-8 bg-[#e9e9f2] font-manrope"
+          >
             Designed with purpose — Built to perform
             <img src="/src/assets/img/star.png" class="w-6 h-6 mx-6" />
           </span>
@@ -32,7 +37,6 @@
   </div>
 
   <section class="dark-zone porto-section relative w-full bg-black text-gray-900 py-32">
-
     <div class="container mx-auto px-6 lg:px-12 relative z-10 max-w-7xl">
       <!-- Section Header -->
       <div class="mb-16 flex flex-col md:flex-row justify-between items-end gap-10">
@@ -69,8 +73,14 @@
         <div
           v-for="(project, index) in filteredProjects"
           :key="project.title"
-          class="project-card group cursor-pointer bg-white/10 backdrop-blur border border-white/20 shadow-lg rounded-2xl"
+          @click="openModal(project)"
+          class="project-card group relative cursor-pointer rounded-2xl overflow-hidden border border-white/10 bg-white/[0.06] backdrop-blur-xl transition-all duration-500 hover:border-purple-800 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
         >
+          <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+            <div
+              class="light-sweep absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent rotate-12"
+            ></div>
+          </div>
           <!-- Project Image -->
           <div class="w-full aspect-[3/2] overflow-hidden rounded-t-2xl relative">
             <div
@@ -129,6 +139,66 @@
       </div>
     </div>
   </section>
+
+  <!-- modal -->
+  <transition name="modal">
+    <div v-if="isModalOpen" class="fixed inset-0 z-[999] flex items-center justify-center">
+      <!-- BACKDROP -->
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-xl" @click="closeModal"></div>
+
+      <!-- MODAL CONTENT -->
+      <div
+        class="relative z-10 w-[90%] max-w-3xl rounded-3xl bg-white/[0.06] backdrop-blur-2xl border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.6)] overflow-hidden"
+        @click.stop
+      >
+        <!-- IMAGE -->
+        <div class="w-full h-[250px] overflow-hidden">
+          <img :src="selectedProject?.image" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- CONTENT -->
+        <div class="p-6">
+          <h2 class="text-3xl font-bold text-white mb-3">
+            {{ selectedProject?.title }}
+          </h2>
+
+          <p class="text-gray-400 text-sm mb-4">
+            {{ selectedProject?.description }}
+          </p>
+
+          <!-- TECH -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span
+              v-for="tech in selectedProject?.tech"
+              :key="tech"
+              class="text-xs px-3 py-1 bg-white/10 rounded-full text-gray-300"
+            >
+              {{ tech }}
+            </span>
+          </div>
+
+          <!-- ACTION -->
+          <div class="flex gap-4">
+            <a
+              :href="selectedProject?.github"
+              target="_blank"
+              class="px-4 py-2 rounded-full bg-purple-500 hover:bg-purple-600 text-white text-sm transition"
+            >
+              Github
+            </a>
+
+            <a
+              :href="selectedProject?.demo"
+              target="_blank"
+              class="px-4 py-2 rounded-full border border-white/20 text-white text-sm hover:bg-white/10 transition"
+            >
+              Live Demo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script setup>
@@ -151,6 +221,8 @@ const allProjects = [
     image:
       'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop',
     tech: ['Vue.js', 'Three.js'],
+    github: 'https://github.com/...',
+    demo: 'https://demo.com',
   },
   {
     title: 'Arkitek',
@@ -160,6 +232,8 @@ const allProjects = [
     image:
       'https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=800&auto=format&fit=crop',
     tech: ['Nuxt', 'Tailwind'],
+    github: 'https://github.com/...',
+    demo: 'https://demo.com',
   },
   {
     title: 'Zen Mode',
@@ -168,6 +242,8 @@ const allProjects = [
     image:
       'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop',
     tech: ['Flutter', 'Firebase'],
+    github: 'https://github.com/...',
+    demo: 'https://demo.com',
   },
   {
     title: 'FinDash',
@@ -176,6 +252,8 @@ const allProjects = [
     image:
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop',
     tech: ['Figma', 'Prototyping'],
+    github: 'https://github.com/...',
+    demo: 'https://demo.com',
   },
   {
     title: 'E-Shop',
@@ -184,6 +262,8 @@ const allProjects = [
     image:
       'https://images.unsplash.com/photo-1472851294608-415522f96319?q=80&w=800&auto=format&fit=crop',
     tech: ['React', 'Node.js'],
+    github: 'https://github.com/...',
+    demo: 'https://demo.com',
   },
   {
     title: 'TravelGo',
@@ -192,6 +272,8 @@ const allProjects = [
     image:
       'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop',
     tech: ['React Native', 'Maps API'],
+    github: 'https://github.com/...',
+    demo: 'https://demo.com',
   },
 ]
 
@@ -252,7 +334,31 @@ onMounted(() => {
     stagger: 0.1,
     ease: 'power2.out',
   })
+
+  // modal animate
+  const handleKey = (e) => {
+    if (e.key === 'Escape') closeModal()
+  }
+
+  window.addEventListener('keydown', handleKey)
 })
+
+const selectedProject = ref(null)
+const isModalOpen = ref(false)
+
+const openModal = (project) => {
+  selectedProject.value = project
+  isModalOpen.value = true
+  document.body.style.overflow = 'hidden'
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+  setTimeout(() => {
+    selectedProject.value = null
+  }, 300)
+  document.body.style.overflow = 'auto'
+}
 </script>
 
 <style>
@@ -271,5 +377,44 @@ onMounted(() => {
   to {
     transform: translateX(0);
   }
+}
+
+.project-card:hover .light-sweep {
+  animation: sweep 0.9s ease forwards;
+}
+
+@keyframes sweep {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* modal style */
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.modal-enter-from {
+  opacity: 0;
+  transform: scale(0.85) translateY(40px);
+}
+
+.modal-enter-to {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.modal-leave-from {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.modal-leave-to {
+  opacity: 0;
+  transform: scale(0.85) translateY(40px);
 }
 </style>

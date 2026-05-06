@@ -1,5 +1,5 @@
 <template>
-  <section class="credentials-section relative w-full bg-gray-100 text-gray-900 py-32 overflow-hidden border-t-[1px] border-black">
+  <section id="credential" class="relative w-full bg-gray-100 text-gray-900 py-32 overflow-hidden border-t-[1px] border-black">
     <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
       
       <div class="header-wrap text-center mb-20">
@@ -55,7 +55,6 @@
 import { onMounted, ref } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
-import Draggable from 'gsap/Draggable' 
 // Note: standard GSAP package might not allow Draggable imports in all environments without plugin registration, 
 // usually Draggable is a separate plugin file or part of free core in npm 'gsap'. 
 // We will use basic x animation for auto-slide here to be safe, simulating marquee with steps.

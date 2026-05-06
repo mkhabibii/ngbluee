@@ -15,7 +15,7 @@
       <div class="flex lg:flex-1 font-sofia">
         <a
           href="#"
-          class="text-3xl font-extrabold leading-[0.75] tracking-tight"
+          class="text-3xl font-extrabold leading-[0.75] tracking-tight hover:text-[#6941C6]"
           :class="isDark ? 'text-white' : 'text-black'"
         >
           <span class="block">MKH.</span>
@@ -25,9 +25,9 @@
 
       <!-- Desktop Menu -->
       <div class="hidden lg:flex lg:gap-x-20 font-manrope">
-        <a href="#about" class="text-lg font-semibold hover:text-gray-600 transition">Essence</a>
-        <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Showcase</a>
-        <a href="#" class="text-lg font-semibold hover:text-gray-600 transition">Credentials</a>
+        <a href="#about" class="text-lg font-semibold hover:text-[#6941C6] transition">Essence</a>
+        <a href="#showcase" class="text-lg font-semibold hover:text-[#6941C6] transition">Showcase</a>
+        <a href="#credential" class="text-lg font-semibold hover:text-[#6941C6] transition">Credentials</a>
       </div>
 
       <!-- Right Side -->

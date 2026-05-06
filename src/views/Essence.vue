@@ -2,6 +2,7 @@
   <!-- Header Contact Links -->
   <div
     class="w-full max-w-7xl mx-auto px-6 lg:px-12 mt-32 md:mt-40 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 font-mono text-xs md:text-lg uppercase tracking-widest z-10 relative"
+    id="about"
   >
     <div class="flex flex-col gap-2">
       <span class="font-semibold">Available for collaboration</span>
@@ -56,7 +57,6 @@
   <!-- Main Title Area -->
   <div class="title mt-12 sm:mt-6 lg:mt-16 relative z-10">
     <h2
-      id="about"
       ref="aboutTitle"
       class="about-title text-center font-bold font-sofia text-[12vw] lg:text-[10rem] tracking-[-0.07em] leading-none"
     >
@@ -65,7 +65,9 @@
   </div>
 
   <!-- Content Area -->
-  <section class="about-section w-full max-w-7xl mx-auto px-6 lg:px-12 relative mt-1 lg:mt-12 lg:mb-20">
+  <section
+    class="about-section w-full max-w-7xl mx-auto px-6 lg:px-12 relative mt-1 lg:mt-12 lg:mb-20"
+  >
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
       <!-- Bio Content with Scroll Reveal -->
       <div class="bio-content space-y-8">
@@ -75,13 +77,14 @@
           I craft digital experiences that blend aesthetics with functionality.
         </h3>
 
-        <p class="reveal-text text-md lg:text-xl leading-relaxed text-gray-800 font-manrope text-justify">
-          Based in Yogyakarta, I am a web developer and UI designer dedicated to building intuitive
-          and immersive web applications. My journey started with a curiosity for how things work on
-          the internet, which quickly evolved into a passion for clean code and pixel-perfect
-          design. and immersive web applications. My journey started with a curiosity for how things
-          work on the internet, which quickly evolved into a passion for clean code and
-          pixel-perfect design.
+        <p
+          class="reveal-text text-md lg:text-xl leading-relaxed text-gray-800 font-manrope text-justify"
+        >
+          I’m <span class="font-black">Muhammad Khoerul Habibi</span>, a web developer and UI designer based in Yogyakarta. I build
+          responsive and scalable web applications with a focus on performance, usability, and clean
+          architecture. I turn complex ideas into intuitive interfaces by combining structured
+          backend systems with precise and consistent UI design. My goal is to deliver efficient,
+          maintainable, and user-focused digital products.
         </p>
       </div>
 
@@ -169,7 +172,7 @@ onMounted(() => {
 
     // Set initial state: Dim/Silver
     gsap.set(split.chars, {
-      color: '#4b5563', 
+      color: '#4b5563',
       opacity: 0.2,
     })
 
