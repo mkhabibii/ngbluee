@@ -75,7 +75,7 @@
       <div class="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 gap-y-16">
         <div
           v-for="(project, index) in filteredProjects"
-          :key="project.title"
+          :key="project.id"
           @click="openModal(project)"
           class="project-card group relative cursor-pointer rounded-2xl overflow-hidden border border-white/10 bg-white/[0.06] backdrop-blur-xl transition-all duration-500 hover:border-purple-800 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
         >
@@ -90,7 +90,7 @@
               class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-10"
             ></div>
             <img
-              :src="project.image"
+              :src="project.image_url"
               :alt="project.title"
               class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
             />
@@ -118,8 +118,6 @@
           <!-- Project Info -->
           <div class="project-info px-4 py-4">
             <div class="flex justify-between items-start mb-2">
-              <!-- <span class="text-xs font-mono font-bold text-gray-400 uppercase tracking-widest">{{ project.category }}</span> -->
-              <!-- <span class="text-xs font-mono text-gray-400">0{{ index + 1 }}</span> -->
             </div>
             <h3
               class="text-3xl text-white font-bold font-sofia mb-3 group-hover:text-purple-500 transition-colors"
@@ -143,7 +141,6 @@
     </div>
   </section>
 
-  <!-- modal -->
   <!-- MODAL -->
   <transition name="modal" @after-leave="selectedProject = null">
     <div v-if="isModalOpen" class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
@@ -170,7 +167,7 @@
           <!-- IMAGE -->
           <div class="relative overflow-hidden">
             <img
-              :src="selectedProject?.image"
+              :src="selectedProject?.image_url"
               :alt="selectedProject?.title"
               class="h-full w-full object-cover transition-transform duration-[2000ms] hover:scale-105"
             />
@@ -227,7 +224,7 @@
             <!-- ACTION -->
             <div class="mt-14 flex flex-wrap gap-4">
               <a
-                :href="selectedProject?.github"
+                :href="selectedProject?.github_url"
                 target="_blank"
                 class="group flex items-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-semibold text-black transition-all duration-300 hover:scale-[1.03] hover:bg-purple-500 hover:text-white"
               >
@@ -238,7 +235,7 @@
               </a>
 
               <a
-                :href="selectedProject?.demo"
+                :href="selectedProject?.demo_url"
                 target="_blank"
                 class="group flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-7 py-4 text-sm font-semibold text-white backdrop-blur-xl transition-all duration-300 hover:scale-[1.03] hover:border-white/20 hover:bg-white/10"
               >
@@ -256,87 +253,53 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, computed } from 'vue'
+import { onMounted, onUnmounted, ref, computed, nextTick } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
+import { supabase } from '../lib/supabase'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const filters = ['All', 'Web', 'UI/UX', 'Mobile']
 const activeFilter = ref('All')
 
-const allProjects = [
-  {
-    title: 'Neon Horizon',
-    category: 'Web',
-    description:
-      'A futuristic landing page featuring WebGL experiments. Designed to push the boundaries of browser capabilities.',
-    image:
-      'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop',
-    tech: ['Vue.js', 'Three.js'],
-    github: 'https://github.com/...',
-    demo: 'https://demo.com',
-  },
-  {
-    title: 'Arkitek',
-    category: 'Web',
-    description:
-      'Minimalist architecture firm portfolio. Focusing on clean lines and negative space.',
-    image:
-      'https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=800&auto=format&fit=crop',
-    tech: ['Nuxt', 'Tailwind'],
-    github: 'https://github.com/...',
-    demo: 'https://demo.com',
-  },
-  {
-    title: 'Zen Mode',
-    category: 'Mobile',
-    description: 'Productivity app with a focus on mindfulness. Features ambient soundscapes.',
-    image:
-      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop',
-    tech: ['Flutter', 'Firebase'],
-    github: 'https://github.com/...',
-    demo: 'https://demo.com',
-  },
-  {
-    title: 'FinDash',
-    category: 'UI/UX',
-    description: 'Comprehensive financial dashboard design system with dark mode support.',
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop',
-    tech: ['Figma', 'Prototyping'],
-    github: 'https://github.com/...',
-    demo: 'https://demo.com',
-  },
-  {
-    title: 'E-Shop',
-    category: 'Web',
-    description: 'Modern e-commerce platform with real-time inventory and seamless checkout.',
-    image:
-      'https://images.unsplash.com/photo-1472851294608-415522f96319?q=80&w=800&auto=format&fit=crop',
-    tech: ['React', 'Node.js'],
-    github: 'https://github.com/...',
-    demo: 'https://demo.com',
-  },
-  {
-    title: 'TravelGo',
-    category: 'Mobile',
-    description: 'Travel companion app for booking flights and discovering local hidden gems.',
-    image:
-      'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop',
-    tech: ['React Native', 'Maps API'],
-    github: 'https://github.com/...',
-    demo: 'https://demo.com',
-  },
-]
+const allProjects = ref([])
+
+const fetchProjects = async () => {
+  const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false })
+  allProjects.value = data || []
+}
 
 const filteredProjects = computed(() => {
-  if (activeFilter.value === 'All') return allProjects
-  return allProjects.filter((p) => p.category === activeFilter.value)
+  if (activeFilter.value === 'All') return allProjects.value
+  return allProjects.value.filter((p) => p.category === activeFilter.value)
 })
 
-onMounted(() => {
+const selectedProject = ref(null)
+const isModalOpen = ref(false)
+
+const openModal = (project) => {
+  selectedProject.value = project
+  isModalOpen.value = true
+  document.body.classList.add('modal-open')
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+  document.body.classList.remove('modal-open')
+}
+
+const handleKey = (e) => {
+  if (e.key === 'Escape' && isModalOpen.value) {
+    closeModal()
+  }
+}
+
+onMounted(async () => {
+  await fetchProjects()
+  await nextTick()
+
   // Title Animation
   const title = new SplitType('.showcase', {
     types: 'chars',
@@ -365,16 +328,6 @@ onMounted(() => {
         from: 'center',
       },
     })
-  // Separator Line Animation
-  gsap.to('.separator', {
-    scrollTrigger: {
-      trigger: '.header-wrap',
-      start: 'top 70%',
-    },
-    scaleX: 1,
-    duration: 1.5,
-    ease: 'expo.out',
-  })
 
   // Grid Animation
   gsap.fromTo(
@@ -400,46 +353,13 @@ onMounted(() => {
     ScrollTrigger.refresh()
   })
 
-  // modal animate
-  const handleKey = (e) => {
-    if (e.key === 'Escape') closeModal()
-  }
-
-  onMounted(() => {
-    window.addEventListener('keydown', handleKey)
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('keydown', handleKey)
-  })
+  window.addEventListener('keydown', handleKey)
 })
 
-const selectedProject = ref(null)
-const isModalOpen = ref(false)
-
-const openModal = (project) => {
-  selectedProject.value = project
-  isModalOpen.value = true
-
-  document.body.classList.add('modal-open')
-}
-
-const closeModal = () => {
-  isModalOpen.value = false
-
-  document.body.classList.remove('modal-open')
-}
-
-const handleKey = (e) => {
-  if (e.key === 'Escape' && isModalOpen.value) {
-    closeModal()
-  }
-}
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKey)
+})
 </script>
-
-
-
-
 
 <style>
 @keyframes marquee-left {
