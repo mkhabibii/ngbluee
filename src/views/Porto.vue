@@ -36,7 +36,10 @@
     </div>
   </div>
 
-  <section class="dark-zone porto-section relative w-full bg-black text-gray-900 py-32">
+  <section
+    id="showcase"
+    class="dark-zone porto-section relative w-full bg-black text-gray-900 py-32"
+  >
     <div class="container mx-auto px-6 lg:px-12 relative z-10 max-w-7xl">
       <!-- Section Header -->
       <div class="mb-16 flex flex-col md:flex-row justify-between items-end gap-10">
@@ -126,11 +129,11 @@
             <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4">
               {{ project.description }}
             </p>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-3">
               <span
                 v-for="tag in project.tech"
                 :key="tag"
-                class="text-[10px] px-2 py-1 bg-gray-200 rounded text-gray-600"
+                class="text-sm px-3 py-1 border border-white/20 rounded-lg text-white"
                 >{{ tag }}</span
               >
             </div>
@@ -141,59 +144,110 @@
   </section>
 
   <!-- modal -->
-  <transition name="modal">
-    <div v-if="isModalOpen" class="fixed inset-0 z-[999] flex items-center justify-center">
+  <!-- MODAL -->
+  <transition name="modal" @after-leave="selectedProject = null">
+    <div v-if="isModalOpen" class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       <!-- BACKDROP -->
-      <div class="absolute inset-0 bg-black/70 backdrop-blur-xl" @click="closeModal"></div>
-
-      <!-- MODAL CONTENT -->
       <div
-        class="relative z-10 w-[90%] max-w-3xl rounded-3xl bg-white/[0.06] backdrop-blur-2xl border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.6)] overflow-hidden"
+        class="modal-backdrop absolute inset-0 bg-black/60 backdrop-blur-md"
+        @click="closeModal"
+      ></div>
+
+      <!-- MODAL -->
+      <div
+        class="modal-content relative z-10 w-full max-w-6xl overflow-hidden rounded-[32px] border border-white/10 bg-[#0d0d0d]/90 shadow-[0_20px_100px_rgba(0,0,0,0.7)]"
         @click.stop
       >
-        <!-- IMAGE -->
-        <div class="w-full h-[250px] overflow-hidden">
-          <img :src="selectedProject?.image" class="w-full h-full object-cover" />
-        </div>
+        <!-- CLOSE -->
+        <button
+          @click="closeModal"
+          class="absolute right-5 top-5 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-white/10"
+        >
+          ✕
+        </button>
 
-        <!-- CONTENT -->
-        <div class="p-6">
-          <h2 class="text-3xl font-bold text-white mb-3">
-            {{ selectedProject?.title }}
-          </h2>
+        <div class="grid min-h-[620px] grid-cols-1 lg:grid-cols-2">
+          <!-- IMAGE -->
+          <div class="relative overflow-hidden">
+            <img
+              :src="selectedProject?.image"
+              :alt="selectedProject?.title"
+              class="h-full w-full object-cover transition-transform duration-[2000ms] hover:scale-105"
+            />
 
-          <p class="text-gray-400 text-sm mb-4">
-            {{ selectedProject?.description }}
-          </p>
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"
+            ></div>
 
-          <!-- TECH -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span
-              v-for="tech in selectedProject?.tech"
-              :key="tech"
-              class="text-xs px-3 py-1 bg-white/10 rounded-full text-gray-300"
+            <div
+              class="absolute bottom-6 left-6 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white backdrop-blur-xl"
             >
-              {{ tech }}
-            </span>
+              Featured Project
+            </div>
           </div>
 
-          <!-- ACTION -->
-          <div class="flex gap-4">
-            <a
-              :href="selectedProject?.github"
-              target="_blank"
-              class="px-4 py-2 rounded-full bg-purple-500 hover:bg-purple-600 text-white text-sm transition"
-            >
-              Github
-            </a>
+          <!-- CONTENT -->
+          <div class="flex flex-col justify-between p-8 lg:p-12">
+            <div>
+              <!-- CATEGORY -->
+              <span
+                class="mb-5 inline-block rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-2 text-xs uppercase tracking-[0.25em] text-purple-300"
+              >
+                {{ selectedProject?.category }}
+              </span>
 
-            <a
-              :href="selectedProject?.demo"
-              target="_blank"
-              class="px-4 py-2 rounded-full border border-white/20 text-white text-sm hover:bg-white/10 transition"
-            >
-              Live Demo
-            </a>
+              <!-- TITLE -->
+              <h2 class="mb-6 text-5xl font-black leading-none text-white lg:text-6xl">
+                {{ selectedProject?.title }}
+              </h2>
+
+              <!-- DESCRIPTION -->
+              <p class="max-w-xl text-base leading-relaxed text-gray-400 lg:text-lg">
+                {{ selectedProject?.description }}
+              </p>
+
+              <!-- TECH STACK -->
+              <div class="mt-10">
+                <h3 class="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-gray-500">
+                  Tech Stack
+                </h3>
+
+                <div class="flex flex-wrap gap-3">
+                  <span
+                    v-for="tech in selectedProject?.tech"
+                    :key="tech"
+                    class="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-gray-300 backdrop-blur-xl transition-all duration-300 hover:border-purple-500/30 hover:bg-purple-500/10 hover:text-white"
+                  >
+                    {{ tech }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACTION -->
+            <div class="mt-14 flex flex-wrap gap-4">
+              <a
+                :href="selectedProject?.github"
+                target="_blank"
+                class="group flex items-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-semibold text-black transition-all duration-300 hover:scale-[1.03] hover:bg-purple-500 hover:text-white"
+              >
+                Github
+                <span class="transition-transform duration-300 group-hover:translate-x-1">
+                  ↗
+                </span>
+              </a>
+
+              <a
+                :href="selectedProject?.demo"
+                target="_blank"
+                class="group flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-7 py-4 text-sm font-semibold text-white backdrop-blur-xl transition-all duration-300 hover:scale-[1.03] hover:border-white/20 hover:bg-white/10"
+              >
+                Live Demo
+                <span class="transition-transform duration-300 group-hover:translate-x-1">
+                  ↗
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -202,7 +256,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
@@ -323,16 +377,27 @@ onMounted(() => {
   })
 
   // Grid Animation
-  gsap.from('.project-card', {
-    scrollTrigger: {
-      trigger: '.projects-grid',
-      start: 'top 80%',
+  gsap.fromTo(
+    '.project-card',
+    {
+      y: 50,
+      opacity: 0,
     },
-    y: 50,
-    opacity: 0,
-    duration: 0.8,
-    stagger: 0.1,
-    ease: 'power2.out',
+    {
+      scrollTrigger: {
+        trigger: '.projects-grid',
+        start: 'top 80%',
+      },
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power2.out',
+    },
+  )
+
+  document.fonts.ready.then(() => {
+    ScrollTrigger.refresh()
   })
 
   // modal animate
@@ -340,7 +405,13 @@ onMounted(() => {
     if (e.key === 'Escape') closeModal()
   }
 
-  window.addEventListener('keydown', handleKey)
+  onMounted(() => {
+    window.addEventListener('keydown', handleKey)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('keydown', handleKey)
+  })
 })
 
 const selectedProject = ref(null)
@@ -349,17 +420,26 @@ const isModalOpen = ref(false)
 const openModal = (project) => {
   selectedProject.value = project
   isModalOpen.value = true
-  document.body.style.overflow = 'hidden'
+
+  document.body.classList.add('modal-open')
 }
 
 const closeModal = () => {
   isModalOpen.value = false
-  setTimeout(() => {
-    selectedProject.value = null
-  }, 300)
-  document.body.style.overflow = 'auto'
+
+  document.body.classList.remove('modal-open')
+}
+
+const handleKey = (e) => {
+  if (e.key === 'Escape' && isModalOpen.value) {
+    closeModal()
+  }
 }
 </script>
+
+
+
+
 
 <style>
 @keyframes marquee-left {
@@ -393,28 +473,61 @@ const closeModal = () => {
 }
 
 /* modal style */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* MODAL */
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.modal-enter-from {
+.modal-enter-active .modal-backdrop,
+.modal-leave-active .modal-backdrop {
+  transition:
+    opacity 0.45s ease,
+    backdrop-filter 0.45s ease;
+}
+
+.modal-enter-active .modal-content,
+.modal-leave-active .modal-content {
+  transition:
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.45s ease;
+}
+
+.modal-enter-from .modal-backdrop,
+.modal-leave-to .modal-backdrop {
   opacity: 0;
-  transform: scale(0.85) translateY(40px);
+  backdrop-filter: blur(0px);
 }
 
-.modal-enter-to {
+.modal-enter-to .modal-backdrop,
+.modal-leave-from .modal-backdrop {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  backdrop-filter: blur(14px);
 }
 
-.modal-leave-from {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-
-.modal-leave-to {
+.modal-enter-from .modal-content {
   opacity: 0;
-  transform: scale(0.85) translateY(40px);
+  transform: translateY(40px) scale(0.94);
+}
+
+.modal-enter-to .modal-content {
+  opacity: 1;
+  transform: translateY(0px) scale(1);
+}
+
+.modal-leave-from .modal-content {
+  opacity: 1;
+  transform: translateY(0px) scale(1);
+}
+
+.modal-leave-to .modal-content {
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
 }
 </style>
