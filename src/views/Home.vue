@@ -1,6 +1,6 @@
 <template>
   <section class="landingP relative overflow-hidden flex">
-    <div class="w-full max-w-7xl mx-auto px-6 lg:px-12 relative">
+    <div class="w-full px-4 sm:px-6 lg:px-12 relative">
       <!-- HERO TITLE  -->
       <div class="absolute top-12 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
         <span class="sub-title block text-xl lg:text-4xl font-light mb-[-0.1em]"> Enthusiast </span>
@@ -24,10 +24,10 @@
         <div class="flex flex-col lg:flex-row items-end gap-4 lg:gap-8">
           <!-- TEXT -->
           <div
-            class="sub-title font-sofia font-bold text-sm sm:text-base md:text-lg lg:text-2xl tracking-[-0.05em] text-center lg:text-left"
+            class="sub-title font-sofia font-bold text-sm sm:text-base md:text-lg lg:text-3xl tracking-[-0.05em] text-center lg:text-left"
           >
             <div>/ WEB DEVELOPMENT</div>
-            <div>/ WEB DESIGN (UX/UI)</div>
+            <div>/ WEB DESIGN (UI/UX)</div>
             <div>/ SENENG NGFOTO</div>
           </div>
 

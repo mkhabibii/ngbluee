@@ -4,7 +4,6 @@ import Home from './Home.vue'
 import Essence from './Essence.vue'
 import Porto from './Porto.vue'
 import Credentials from './Credentials.vue'
-import ContactMe from './ContactMe.vue'
 import Footer from '../components/Footer.vue'
 import Lenis from 'lenis'
 import { onMounted } from 'vue'
@@ -30,7 +29,8 @@ onMounted(() => {
 <template>
   <Navbar />
 
-  <main>
+  <!-- pt-20 ensures content is not hidden behind the fixed navbar -->
+  <main class="pt-20">
     <Home id="home" />
     <Essence id="about" />
     <Porto id="projects" />

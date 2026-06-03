@@ -77,12 +77,12 @@ const handleSubmit = async () => {
       const filePath = `credentials/${fileName}`
 
       const { error: uploadError } = await supabase.storage
-        .from('portfolio')
+        .from('portofolio')
         .upload(filePath, imageFile.value)
 
       if (uploadError) throw uploadError
 
-      const { data: urlData } = supabase.storage.from('portfolio').getPublicUrl(filePath)
+      const { data: urlData } = supabase.storage.from('portofolio').getPublicUrl(filePath)
       image_url = urlData.publicUrl
     }
 

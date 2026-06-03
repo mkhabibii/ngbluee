@@ -1,6 +1,6 @@
 <template>
   <section id="credential" class="relative w-full bg-gray-100 text-gray-900 py-32 overflow-hidden border-t-[1px] border-black">
-    <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+    <div class="w-full px-4 sm:px-6 lg:px-12">
       
       <div class="header-wrap text-center mb-20">
          <h2 class="font-sofia text-[12vw] lg:text-[10rem] leading-[0.8] font-bold text-transparent bg-clip-text bg-gradient-to-b from-gray-900 to-gray-400">

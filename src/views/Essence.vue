@@ -1,7 +1,7 @@
 <template>
   <!-- Header Contact Links -->
   <div
-    class="w-full max-w-7xl mx-auto px-6 lg:px-12 mt-32 md:mt-40 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 font-mono text-xs md:text-lg uppercase tracking-widest z-10 relative"
+    class="w-full px-4 sm:px-6 lg:px-12 mt-32 md:mt-40 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 font-mono text-xs md:text-lg uppercase tracking-widest z-10 relative"
     id="about"
   >
     <div class="flex flex-col gap-2">
@@ -58,7 +58,7 @@
   <div class="title mt-12 sm:mt-6 lg:mt-16 relative z-10">
     <h2
       ref="aboutTitle"
-      class="about-title text-center font-bold font-sofia text-[12vw] lg:text-[10rem] tracking-[-0.07em] leading-none"
+      class="about-title text-center font-extrabold font-sofia text-[12vw] lg:text-[8rem] tracking-[-0.07em] leading-none"
     >
       ABOUT ME
     </h2>
@@ -66,7 +66,7 @@
 
   <!-- Content Area -->
   <section
-    class="about-section w-full max-w-7xl mx-auto px-6 lg:px-12 relative mt-1 lg:mt-12 lg:mb-20"
+    class="about-section w-full px-4 sm:px-6 lg:px-12 relative mt-1 lg:mt-12 lg:mb-20"
   >
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
       <!-- Bio Content with Scroll Reveal -->
@@ -131,6 +131,8 @@ const skills = ref([
   'Git',
   'Postman',
   'MySQL',
+  'Laragon',
+  'Supabase'
 ])
 
 onMounted(() => {
@@ -163,30 +165,31 @@ onMounted(() => {
       },
     })
 
-  // Text Reveal Effect (Dim to Bright)
+  // Text Reveal Effect (Dim to Bright) - OPTIMIZED to 'words' level
   const revealElements = document.querySelectorAll('.reveal-text')
 
   revealElements.forEach((element) => {
-    // Split text into characters
-    const split = new SplitType(element, { types: 'words, chars' })
+    // Optimization: Use 'words' instead of 'chars' for significantly better performance
+    const split = new SplitType(element, { types: 'words' })
 
-    // Set initial state: Dim/Silver
-    gsap.set(split.chars, {
+    // Set initial state: Dim/Silver with hardware acceleration hint
+    gsap.set(split.words, {
       color: '#4b5563',
-      opacity: 0.2,
+      opacity: 0.15,
+      willChange: 'opacity, color' 
     })
 
-    // Animate to Bright/White
-    gsap.to(split.chars, {
+    // Animate to Bright/Black with smoothing
+    gsap.to(split.words, {
       scrollTrigger: {
         trigger: element,
-        start: 'top 80%',
-        end: 'bottom 50%',
-        scrub: 0.5,
+        start: 'top 85%',
+        end: 'bottom 60%',
+        scrub: 1.2, // Smoother damping
       },
       color: '#000000',
       opacity: 1,
-      stagger: 0.1,
+      stagger: 0.05,
       ease: 'none',
     })
   })
@@ -194,6 +197,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.reveal-text {
+  backface-visibility: hidden;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
 .about-title {
   /* line-height: 1; */
   overflow: hidden;

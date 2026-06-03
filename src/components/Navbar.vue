@@ -1,21 +1,18 @@
 <template>
   <header
     ref="navbar"
-    :class="[
-      'navbar sticky top-0 z-50 transition-all duration-300',
-      isScrolled ? 'border-white/5 backdrop-blur backdrop-filter bg-black/20' : 'bg-transparent',
-      isDark ? 'text-white' : 'text-black',
-    ]"
+    style="opacity: 0;"
+    class="navbar fixed top-0 left-0 right-0 z-50"
   >
     <nav
-      class="mx-auto flex max-w-6xl items-center justify-between p-4 lg:px-2"
+      class="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4"
       aria-label="Global"
     >
       <!-- Brand Name -->
       <div class="flex lg:flex-1 font-sofia">
         <a
           href="#"
-          class="text-3xl font-extrabold leading-[0.75] tracking-tight hover:text-[#6941C6]"
+          class="text-3xl lg:text-4xl font-extrabold leading-[0.75] tracking-tight transition-colors hover:opacity-60"
           :class="isDark ? 'text-white' : 'text-black'"
         >
           <span class="block">MKH.</span>
@@ -23,131 +20,302 @@
         </a>
       </div>
 
-      <!-- Desktop Menu -->
-      <div class="hidden lg:flex lg:gap-x-20 font-manrope">
-        <a href="#about" class="text-lg font-semibold hover:text-[#6941C6] transition">Essence</a>
-        <a href="#showcase" class="text-lg font-semibold hover:text-[#6941C6] transition">Showcase</a>
-        <a href="#credential" class="text-lg font-semibold hover:text-[#6941C6] transition">Credentials</a>
-      </div>
-
-      <!-- Right Side -->
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4 font-manrope">
-        <a
-          href="#"
-          class="text-md text-black font-bold px-6 py-2 rounded-full border-1 border transition"
-          :class="
-            isDark
-              ? 'text-white border-white hover:bg-white hover:text-black'
-              : 'text-black border-black hover:bg-black hover:text-white'
-          "
-        >
-          Get In Touch
-        </a>
-      </div>
-
-      <!-- Burger Menu Mobile -->
-      <div class="flex lg:hidden">
-        <button
-          type="button"
-          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-800"
-          @click="mobileMenuOpen = true"
-        >
-          <span class="sr-only">Open main menu</span>
-          <Bars3Icon class="size-6" aria-hidden="true" />
-        </button>
-      </div>
+      <!-- Menu Button -->
+      <button
+        ref="menuBtn"
+        type="button"
+        class="menu-btn flex items-center gap-2 rounded-full border px-5 py-2.5 font-manrope text-base font-semibold cursor-pointer"
+        :class="isDark ? 'bg-white text-black' : 'bg-black text-white'"
+        @click="openMenu"
+      >
+        Menu
+        <span
+          class="inline-block w-2 h-2 rounded-full"
+          :class="isDark ? 'bg-black' : 'bg-white'"
+        />
+      </button>
     </nav>
 
-    <!-- Mobile Menu Dialog -->
-    <TransitionRoot :show="mobileMenuOpen" as="template">
-      <Dialog class="lg:hidden" @close="mobileMenuOpen = false">
-        <!-- Backdrop -->
-        <TransitionChild
-          as="template"
-          enter="ease-out duration-300"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="ease-in duration-200"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-        >
-          <div class="fixed inset-0 z-50 bg-black/30" aria-hidden="true"></div>
-        </TransitionChild>
+    <!-- Backdrop overlay -->
+    <div
+      ref="overlay"
+      class="fixed inset-0 z-[60] pointer-events-none"
+      style="opacity: 0; background: rgba(0,0,0,0.15); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);"
+      @click="closeMenu"
+    />
 
-        <!-- Panel Slider -->
-        <TransitionChild
-          as="template"
-          enter="transform transition ease-out duration-300"
-          enter-from="translate-x-full"
-          enter-to="translate-x-0"
-          leave="transform transition ease-in duration-200"
-          leave-from="translate-x-0"
-          leave-to="translate-x-full"
-        >
-          <DialogPanel
-            class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-black/20 backdrop-blur-md p-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
+    <!--
+      Panel — NEVER moves position.
+      Reveal/collapse is achieved via clip-path: circle() 
+      centered on the menu button, so it looks like it emerges
+      and collapses back into the button precisely.
+    -->
+    <div
+      ref="panel"
+      class="menu-panel fixed z-[70] flex flex-col overflow-hidden"
+      :class="isDark ? 'bg-[#f5f4f0]' : 'bg-[#111]'"
+      style="
+        top: 12px;
+        right: 12px;
+        width: 0px;
+        height: 0px;
+        border-radius: 20px;
+        pointer-events: none;
+        clip-path: circle(0px at 50% 50%);
+      "
+    >
+      <!-- Inner content, fades in after panel is revealed -->
+      <div ref="panelInner" class="flex flex-col h-full" style="opacity: 0;">
+
+        <!-- Close Button -->
+        <div class="flex justify-end p-6 pb-2">
+          <button
+            type="button"
+            class="flex items-center gap-2 font-manrope text-sm font-medium transition-opacity hover:opacity-60 cursor-pointer" 
+            :class="isDark ? 'text-black' : 'text-white'"
+            @click="closeMenu"
           >
-            <div class="flex items-center justify-between">
-              <a
-                href="#"
-                class="font-sofia text-black hover:text-gray-300 -m-1.5 p-1.5 text-2xl font-extrabold leading-[0.75] tracking-tight"
-              >
-                <span class="block">MKH.</span>
-                <span class="block">HABIBI</span>
-              </a>
-              <button
-                type="button"
-                class="-m-2.5 rounded-md p-2.5 text-black hover:text-gray-600"
-                @click="mobileMenuOpen = false"
-              >
-                <span class="sr-only">Close menu</span>
-                <XMarkIcon class="size-6" aria-hidden="true" />
-              </button>
-            </div>
+            Close
+            <span
+              class="flex h-9 w-9 items-center justify-center rounded-full text-sm"
+              :class="isDark ? 'bg-black text-white' : 'bg-white text-black'"
+            >✕</span>
+          </button>
+        </div>
 
-            <div class="mt-6 flow-root">
-              <div class="-my-6 divide-y divide-white/10 font-manrope">
-                <div class="space-y-2 py-6">
-                  <a
-                    href="#"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-medium hover:bg-black/10 hover:text-white"
-                    >Essence</a
-                  >
-                  <a
-                    href="#"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-medium hover:bg-black/10 hover:text-white"
-                    >Showcase</a
-                  >
-                  <a
-                    href="#"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-medium hover:bg-black/10 hover:text-white"
-                    >Credentials</a
-                  >
-                </div>
-                <div class="py-6 space-y-4">
-                  <a
-                    href="#"
-                    class="-mx-3 block rounded-full px-6 py-3 text-center text-base/7 font-semibold border-2 border-black hover:bg-black hover:text-white transition"
-                    >Get in Touch</a
-                  >
-                </div>
-              </div>
-            </div>
-          </DialogPanel>
-        </TransitionChild>
-      </Dialog>
-    </TransitionRoot>
+        <!-- Nav Links -->
+        <nav class="flex flex-1 flex-col justify-center gap-0 px-8 font-manrope">
+          <a
+            v-for="item in navItems"
+            :key="item.href"
+            :href="item.href"
+            ref="navLinks"
+            class="block text-[3rem] sm:text-[3.5rem] lg:text-[4rem] font-bold leading-[1.15] tracking-tight transition-colors"
+            :class="isDark ? 'text-black hover:text-neutral-600' : 'text-white hover:text-neutral-400'"
+            @click="handleNavClick"
+          >
+            {{ item.label }}
+          </a>
+        </nav>
+
+        <!-- Footer -->
+        <div
+          class="flex items-center justify-between border-t px-8 py-5 font-manrope"
+          :class="isDark ? 'border-black/10' : 'border-white/10'"
+        >
+          <span
+            class="text-base"
+            :class="isDark ? 'text-neutral-600' : 'text-neutral-400'"
+          >mkhabibi0607@email.com</span>
+          <div class="flex gap-2">
+            <a
+              v-for="s in socials"
+              :key="s.label"
+              :href="s.href"
+              target="_blank"
+              class="flex h-9 w-9 items-center justify-center rounded-full transition-colors overflow-hidden"
+              :class="isDark
+                ? 'bg-black text-white hover:bg-neutral-800'
+                : 'bg-white text-black hover:bg-neutral-200'"
+            >
+              <img :src="s.icon" :alt="s.label" class="w-5 h-5 object-contain" :class="isDark ? 'invert' : ''" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Dialog, DialogPanel, TransitionRoot, TransitionChild } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import gsap from 'gsap'
+import githubIcon from '@/assets/img/github.png'
+import linkedinIcon from '@/assets/img/linkedin.png'
+import instagramIcon from '@/assets/img/instagram.png'
+import { Howl } from 'howler'
 
-const mobileMenuOpen = ref(false)
+const menuOpenSfx  = '/sounds/open.mp3'    
+const menuCloseSfx = '/sounds/close.mp3' 
+
+const openSound = new Howl({
+  src: [menuOpenSfx],
+  volume: 0.5,
+  preload: true,
+})
+
+const closeSound = new Howl({
+  src: [menuCloseSfx],
+  volume: 0.5,
+  preload: true,
+})
+
+const playSound = (type) => {
+  type === 'open' ? openSound.play() : closeSound.play()
+}
+
+const handleNavClick = () => {
+  closeMenu(false)
+}
+
+const navbar     = ref(null)
+const menuBtn    = ref(null)
+const panel      = ref(null)
+const panelInner = ref(null)
+const overlay    = ref(null)
+const navLinks   = ref([])
+const isOpen     = ref(false)
 const isScrolled = ref(false)
+const isDark     = ref(false)
+
+const navItems = [
+  { href: '#about',      label: 'Essence'     },
+  { href: '#showcase',   label: 'Showcase'    },
+  { href: '#credential', label: 'Credentials' },
+]
+
+const socials = [
+  { 
+    label: 'GitHub', 
+    href: 'https://github.com/habiboy7', 
+    icon: githubIcon 
+  },
+  { 
+    label: 'LinkedIn', 
+    href: 'https://linkedin.com/in/muhammadkhoerulhabibi', 
+    icon: linkedinIcon 
+  },
+  { 
+    label: 'Instagram',
+    href: 'https://www.instagram.com/mkhabibii_', 
+    icon: instagramIcon 
+  },
+]
+
+// Responsive target panel size
+const getPanelSize = () => {
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  if (vw >= 1024) return { w: 420, h: 520 }
+  if (vw >= 640)  return { w: Math.min(400, vw - 24), h: 500 }
+  return { w: vw - 24, h: Math.min(560, vh - 24) }
+}
+
+/**
+ * Calculate the button center relative to the panel's top-left corner.
+ * Panel is fixed at top: 12, right: 12.
+ * This gives us the exact clip-path origin point.
+ */
+const getOrigin = (w) => {
+  const btnRect = menuBtn.value.getBoundingClientRect()
+  const panelLeft = window.innerWidth - 12 - w
+  const panelTop  = 12
+
+  const originX = btnRect.left + btnRect.width  / 2 - panelLeft
+  const originY = btnRect.top  + btnRect.height / 2 - panelTop
+  return { originX, originY }
+}
+
+/**
+ * Compute the minimum circle radius that fully covers the panel
+ * when centered at (originX, originY).
+ */
+const getMaxRadius = (w, h, originX, originY) => {
+  return Math.ceil(Math.max(
+    Math.hypot(originX,     originY),
+    Math.hypot(w - originX, originY),
+    Math.hypot(originX,     h - originY),
+    Math.hypot(w - originX, h - originY),
+  )) + 10
+}
+
+const openMenu = () => {
+  if (isOpen.value) return
+  isOpen.value = true
+  playSound('open')
+
+  const { w, h } = getPanelSize()
+  const { originX, originY } = getOrigin(w)
+  const maxR = getMaxRadius(w, h, originX, originY)
+
+  // Set panel to its final size/position, collapsed to a circle at button center
+  gsap.set(panel.value, {
+    width:        w,
+    height:       h,
+    clipPath:     `circle(0px at ${originX}px ${originY}px)`,
+  })
+
+  // Button pulse
+  gsap.timeline()
+    .to(menuBtn.value, { scale: 1.1,  duration: 0.18, ease: 'power2.out' })
+    .to(menuBtn.value, { scale: 1,    duration: 0.5,  ease: 'elastic.out(1, 0.5)' })
+
+  // Overlay
+  gsap.to(overlay.value, {
+    opacity:  1,
+    duration: 0.4,
+    ease:     'power2.out',
+    onStart:  () => { overlay.value.style.pointerEvents = 'auto' },
+  })
+
+  // Reveal panel via clip-path circle growing from button center
+  gsap.to(panel.value, {
+    clipPath:  `circle(${maxR}px at ${originX}px ${originY}px)`,
+    duration:  0.65,
+    ease:      'power4.inOut',
+    onStart:   () => { panel.value.style.pointerEvents = 'auto' },
+    onComplete: () => {
+      // Fade in inner content after reveal
+      gsap.to(panelInner.value, { opacity: 1, duration: 0.25, ease: 'power2.out' })
+      gsap.fromTo(
+        navLinks.value,
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'power3.out' }
+      )
+    },
+  })
+}
+
+const closeMenu = () => {
+  if (!isOpen.value) return
+  isOpen.value = false
+  playSound('close')  
+
+  const { w, h } = getPanelSize()
+  const { originX, originY } = getOrigin(w)
+
+  // Button bounce
+  gsap.timeline()
+    .to(menuBtn.value, { scale: 0.9, duration: 0.15, ease: 'power2.in' })
+    .to(menuBtn.value, { scale: 1,   duration: 0.4,  ease: 'elastic.out(1, 0.5)' })
+
+  // Fade overlay
+  gsap.to(overlay.value, {
+    opacity:    0,
+    duration:   0.3,
+    ease:       'power2.in',
+    onComplete: () => { overlay.value.style.pointerEvents = 'none' },
+  })
+
+  // Fade out content, then collapse circle back to button center
+  gsap.to(panelInner.value, {
+    opacity:  0,
+    duration: 0.15,
+    ease:     'power2.in',
+    onComplete: () => {
+      gsap.to(panel.value, {
+        clipPath:  `circle(0px at ${originX}px ${originY}px)`,
+        duration:  0.5,
+        ease:      'power4.inOut',
+        onComplete: () => {
+          panel.value.style.pointerEvents = 'none'
+          // Reset size so it's invisible while closed
+          gsap.set(panel.value, { width: 0, height: 0, clipPath: 'circle(0px at 50% 50%)' })
+        },
+      })
+    },
+  })
+}
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 20
@@ -155,41 +323,43 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-})
 
-onMounted(() => {
-  gsap.from('header', {
-    filter: 'opacity(0)',
-    duration: 2,
-    ease: 'power4.out',
+  gsap.to(navbar.value, {
+    opacity:  1,
+    duration: 1.5,
+    delay:    2,
+    ease:     'power4.out',
   })
+
+  // Dark zone observer
+  const darkZones = document.querySelectorAll('.dark-zone')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        isDark.value = entry.isIntersecting
+      })
+    },
+    { threshold: 0.3 }
+  )
+  darkZones.forEach((zone) => observer.observe(zone))
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
-
-const navbar = ref(null)
-const isDark = ref(false)
-
-onMounted(() => {
-  const darkZones = document.querySelectorAll('.dark-zone')
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          isDark.value = true
-        } else {
-          isDark.value = false
-        }
-      })
-    },
-    {
-      threshold: 0.3,
-    },
-  )
-
-  darkZones.forEach((zone) => observer.observe(zone))
-})
 </script>
+
+<style scoped>
+.navbar {
+  background: transparent;
+}
+
+.menu-btn {
+  will-change: transform;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.menu-panel {
+  will-change: clip-path;
+}
+</style>
