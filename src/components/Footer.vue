@@ -26,11 +26,11 @@
           <ul
             class="grid grid-cols-2 sm:grid-cols-1 gap-4 font-manrope text-xs md:text-base font-bold text-gray-500 uppercase tracking-[0.2em]"
           >
-            <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
-            <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
-            <li><a href="#showcase" class="hover:text-white transition-colors">Showcase</a></li>
+            <li><a href="#home" @click="handleNavClick($event, '#home')" class="hover:text-white transition-colors">Home</a></li>
+            <li><a href="#about" @click="handleNavClick($event, '#about')" class="hover:text-white transition-colors">About</a></li>
+            <li><a href="#showcase" @click="handleNavClick($event, '#showcase')" class="hover:text-white transition-colors">Showcase</a></li>
             <li>
-              <a href="#credential" class="hover:text-white transition-colors">Credentials</a>
+              <a href="#credential" @click="handleNavClick($event, '#credential')" class="hover:text-white transition-colors">Credentials</a>
             </li>
           </ul>
         </div>
@@ -170,6 +170,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import gsap from 'gsap'
+
+const handleNavClick = (e, href) => {
+  if (window.lenis && href.startsWith('#')) {
+    e.preventDefault()
+    window.lenis.scrollTo(href)
+    history.pushState(null, null, href)
+  }
+}
 
 // State
 const fillText = ref(null)

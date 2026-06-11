@@ -28,6 +28,18 @@
       <input v-model="form.organization" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500/50" placeholder="Meta, Google, etc." />
     </div>
 
+    <!-- Year / Release Date -->
+    <div>
+      <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Release Date / Year</label>
+      <input v-model="form.year" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500/50" placeholder="Dec 2024" />
+    </div>
+
+    <!-- Credential URL -->
+    <div>
+      <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Credential URL / Verification Link</label>
+      <input v-model="form.credential_url" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500/50" placeholder="https://www.coursera.org/account/accomplishments/..." />
+    </div>
+
     <div class="flex justify-end gap-3 mt-8">
       <button @click="$emit('cancel')" class="px-6 py-3 rounded-full text-gray-400 hover:text-white transition-colors">Cancel</button>
       <button 
@@ -55,7 +67,9 @@ const imageFile = ref(null)
 const form = reactive({
   title: props.initialData?.title || '',
   organization: props.initialData?.organization || '',
-  image_url: props.initialData?.image_url || ''
+  image_url: props.initialData?.image_url || '',
+  credential_url: props.initialData?.credential_url || '',
+  year: props.initialData?.year || ''
 })
 
 const handleFileChange = (e) => {

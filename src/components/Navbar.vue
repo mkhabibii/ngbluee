@@ -1,19 +1,13 @@
 <template>
-  <header
-    ref="navbar"
-    style="opacity: 0;"
-    class="navbar fixed top-0 left-0 right-0 z-50"
-  >
-    <nav
-      class="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4"
-      aria-label="Global"
-    >
+  <header ref="navbar" style="opacity: 0" class="navbar fixed top-0 left-0 right-0 z-50">
+    <nav class="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4" aria-label="Global">
       <!-- Brand Name -->
       <div class="flex lg:flex-1 font-sofia">
         <a
           href="#"
           class="text-3xl lg:text-4xl font-extrabold leading-[0.75] tracking-tight transition-colors hover:opacity-60"
           :class="isDark ? 'text-white' : 'text-black'"
+          @click="handleBrandClick"
         >
           <span class="block">MKH.</span>
           <span class="block">HABIBI</span>
@@ -29,10 +23,7 @@
         @click="openMenu"
       >
         Menu
-        <span
-          class="inline-block w-2 h-2 rounded-full"
-          :class="isDark ? 'bg-black' : 'bg-white'"
-        />
+        <span class="inline-block w-2 h-2 rounded-full" :class="isDark ? 'bg-black' : 'bg-white'" />
       </button>
     </nav>
 
@@ -40,7 +31,12 @@
     <div
       ref="overlay"
       class="fixed inset-0 z-[60] pointer-events-none"
-      style="opacity: 0; background: rgba(0,0,0,0.15); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);"
+      style="
+        opacity: 0;
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      "
       @click="closeMenu"
     />
 
@@ -65,13 +61,12 @@
       "
     >
       <!-- Inner content, fades in after panel is revealed -->
-      <div ref="panelInner" class="flex flex-col h-full" style="opacity: 0;">
-
+      <div ref="panelInner" class="flex flex-col h-full" style="opacity: 0">
         <!-- Close Button -->
         <div class="flex justify-end p-6 pb-2">
           <button
             type="button"
-            class="flex items-center gap-2 font-manrope text-sm font-medium transition-opacity hover:opacity-60 cursor-pointer" 
+            class="flex items-center gap-2 font-manrope text-sm font-medium transition-opacity hover:opacity-60 cursor-pointer"
             :class="isDark ? 'text-black' : 'text-white'"
             @click="closeMenu"
           >
@@ -79,7 +74,8 @@
             <span
               class="flex h-9 w-9 items-center justify-center rounded-full text-sm"
               :class="isDark ? 'bg-black text-white' : 'bg-white text-black'"
-            >✕</span>
+              >✕</span
+            >
           </button>
         </div>
 
@@ -91,8 +87,10 @@
             :href="item.href"
             ref="navLinks"
             class="block text-[3rem] sm:text-[3.5rem] lg:text-[4rem] font-bold leading-[1.15] tracking-tight transition-colors"
-            :class="isDark ? 'text-black hover:text-neutral-600' : 'text-white hover:text-neutral-400'"
-            @click="handleNavClick"
+            :class="
+              isDark ? 'text-black hover:text-neutral-600' : 'text-white hover:text-neutral-400'
+            "
+            @click="handleNavClick($event, item.href)"
           >
             {{ item.label }}
           </a>
@@ -103,10 +101,9 @@
           class="flex items-center justify-between border-t px-8 py-5 font-manrope"
           :class="isDark ? 'border-black/10' : 'border-white/10'"
         >
-          <span
-            class="text-base"
-            :class="isDark ? 'text-neutral-600' : 'text-neutral-400'"
-          >mkhabibi0607@email.com</span>
+          <span class="text-base" :class="isDark ? 'text-neutral-600' : 'text-neutral-400'"
+            >habiboy0607@gmail.com</span
+          >
           <div class="flex gap-2">
             <a
               v-for="s in socials"
@@ -114,11 +111,18 @@
               :href="s.href"
               target="_blank"
               class="flex h-9 w-9 items-center justify-center rounded-full transition-colors overflow-hidden"
-              :class="isDark
-                ? 'bg-black text-white hover:bg-neutral-800'
-                : 'bg-white text-black hover:bg-neutral-200'"
+              :class="
+                isDark
+                  ? 'bg-black text-white hover:bg-neutral-800'
+                  : 'bg-white text-black hover:bg-neutral-200'
+              "
             >
-              <img :src="s.icon" :alt="s.label" class="w-5 h-5 object-contain" :class="isDark ? 'invert' : ''" />
+              <img
+                :src="s.icon"
+                :alt="s.label"
+                class="w-5 h-5 object-contain"
+                :class="isDark ? 'invert' : ''"
+              />
             </a>
           </div>
         </div>
@@ -135,8 +139,8 @@ import linkedinIcon from '@/assets/img/linkedin.png'
 import instagramIcon from '@/assets/img/instagram.png'
 import { Howl } from 'howler'
 
-const menuOpenSfx  = '/sounds/open.mp3'    
-const menuCloseSfx = '/sounds/close.mp3' 
+const menuOpenSfx = '/sounds/open.mp3'
+const menuCloseSfx = '/sounds/close.mp3'
 
 const openSound = new Howl({
   src: [menuOpenSfx],
@@ -154,41 +158,54 @@ const playSound = (type) => {
   type === 'open' ? openSound.play() : closeSound.play()
 }
 
-const handleNavClick = () => {
+const handleNavClick = (e, href) => {
   closeMenu(false)
+  if (window.lenis && href.startsWith('#')) {
+    e.preventDefault()
+    window.lenis.scrollTo(href)
+    history.pushState(null, null, href)
+  }
 }
 
-const navbar     = ref(null)
-const menuBtn    = ref(null)
-const panel      = ref(null)
+const handleBrandClick = (e) => {
+  if (window.lenis) {
+    e.preventDefault()
+    window.lenis.scrollTo(0)
+    history.pushState(null, null, '/')
+  }
+}
+
+const navbar = ref(null)
+const menuBtn = ref(null)
+const panel = ref(null)
 const panelInner = ref(null)
-const overlay    = ref(null)
-const navLinks   = ref([])
-const isOpen     = ref(false)
+const overlay = ref(null)
+const navLinks = ref([])
+const isOpen = ref(false)
 const isScrolled = ref(false)
-const isDark     = ref(false)
+const isDark = ref(false)
 
 const navItems = [
-  { href: '#about',      label: 'Essence'     },
-  { href: '#showcase',   label: 'Showcase'    },
+  { href: '#about', label: 'Essence' },
+  { href: '#showcase', label: 'Showcase' },
   { href: '#credential', label: 'Credentials' },
 ]
 
 const socials = [
-  { 
-    label: 'GitHub', 
-    href: 'https://github.com/habiboy7', 
-    icon: githubIcon 
+  {
+    label: 'GitHub',
+    href: 'https://github.com/habiboy7',
+    icon: githubIcon,
   },
-  { 
-    label: 'LinkedIn', 
-    href: 'https://linkedin.com/in/muhammadkhoerulhabibi', 
-    icon: linkedinIcon 
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/muhammadkhoerulhabibi',
+    icon: linkedinIcon,
   },
-  { 
+  {
     label: 'Instagram',
-    href: 'https://www.instagram.com/mkhabibii_', 
-    icon: instagramIcon 
+    href: 'https://www.instagram.com/mkhabibii_',
+    icon: instagramIcon,
   },
 ]
 
@@ -197,7 +214,7 @@ const getPanelSize = () => {
   const vw = window.innerWidth
   const vh = window.innerHeight
   if (vw >= 1024) return { w: 420, h: 520 }
-  if (vw >= 640)  return { w: Math.min(400, vw - 24), h: 500 }
+  if (vw >= 640) return { w: Math.min(400, vw - 24), h: 500 }
   return { w: vw - 24, h: Math.min(560, vh - 24) }
 }
 
@@ -209,10 +226,10 @@ const getPanelSize = () => {
 const getOrigin = (w) => {
   const btnRect = menuBtn.value.getBoundingClientRect()
   const panelLeft = window.innerWidth - 12 - w
-  const panelTop  = 12
+  const panelTop = 12
 
-  const originX = btnRect.left + btnRect.width  / 2 - panelLeft
-  const originY = btnRect.top  + btnRect.height / 2 - panelTop
+  const originX = btnRect.left + btnRect.width / 2 - panelLeft
+  const originY = btnRect.top + btnRect.height / 2 - panelTop
   return { originX, originY }
 }
 
@@ -221,12 +238,16 @@ const getOrigin = (w) => {
  * when centered at (originX, originY).
  */
 const getMaxRadius = (w, h, originX, originY) => {
-  return Math.ceil(Math.max(
-    Math.hypot(originX,     originY),
-    Math.hypot(w - originX, originY),
-    Math.hypot(originX,     h - originY),
-    Math.hypot(w - originX, h - originY),
-  )) + 10
+  return (
+    Math.ceil(
+      Math.max(
+        Math.hypot(originX, originY),
+        Math.hypot(w - originX, originY),
+        Math.hypot(originX, h - originY),
+        Math.hypot(w - originX, h - originY),
+      ),
+    ) + 10
+  )
 }
 
 const openMenu = () => {
@@ -240,37 +261,42 @@ const openMenu = () => {
 
   // Set panel to its final size/position, collapsed to a circle at button center
   gsap.set(panel.value, {
-    width:        w,
-    height:       h,
-    clipPath:     `circle(0px at ${originX}px ${originY}px)`,
+    width: w,
+    height: h,
+    clipPath: `circle(0px at ${originX}px ${originY}px)`,
   })
 
   // Button pulse
-  gsap.timeline()
-    .to(menuBtn.value, { scale: 1.1,  duration: 0.18, ease: 'power2.out' })
-    .to(menuBtn.value, { scale: 1,    duration: 0.5,  ease: 'elastic.out(1, 0.5)' })
+  gsap
+    .timeline()
+    .to(menuBtn.value, { scale: 1.1, duration: 0.18, ease: 'power2.out' })
+    .to(menuBtn.value, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' })
 
   // Overlay
   gsap.to(overlay.value, {
-    opacity:  1,
+    opacity: 1,
     duration: 0.4,
-    ease:     'power2.out',
-    onStart:  () => { overlay.value.style.pointerEvents = 'auto' },
+    ease: 'power2.out',
+    onStart: () => {
+      overlay.value.style.pointerEvents = 'auto'
+    },
   })
 
   // Reveal panel via clip-path circle growing from button center
   gsap.to(panel.value, {
-    clipPath:  `circle(${maxR}px at ${originX}px ${originY}px)`,
-    duration:  0.65,
-    ease:      'power4.inOut',
-    onStart:   () => { panel.value.style.pointerEvents = 'auto' },
+    clipPath: `circle(${maxR}px at ${originX}px ${originY}px)`,
+    duration: 0.65,
+    ease: 'power4.inOut',
+    onStart: () => {
+      panel.value.style.pointerEvents = 'auto'
+    },
     onComplete: () => {
       // Fade in inner content after reveal
       gsap.to(panelInner.value, { opacity: 1, duration: 0.25, ease: 'power2.out' })
       gsap.fromTo(
         navLinks.value,
         { opacity: 0, y: 22 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'power3.out' }
+        { opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'power3.out' },
       )
     },
   })
@@ -279,34 +305,37 @@ const openMenu = () => {
 const closeMenu = () => {
   if (!isOpen.value) return
   isOpen.value = false
-  playSound('close')  
+  playSound('close')
 
   const { w, h } = getPanelSize()
   const { originX, originY } = getOrigin(w)
 
   // Button bounce
-  gsap.timeline()
+  gsap
+    .timeline()
     .to(menuBtn.value, { scale: 0.9, duration: 0.15, ease: 'power2.in' })
-    .to(menuBtn.value, { scale: 1,   duration: 0.4,  ease: 'elastic.out(1, 0.5)' })
+    .to(menuBtn.value, { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.5)' })
 
   // Fade overlay
   gsap.to(overlay.value, {
-    opacity:    0,
-    duration:   0.3,
-    ease:       'power2.in',
-    onComplete: () => { overlay.value.style.pointerEvents = 'none' },
+    opacity: 0,
+    duration: 0.3,
+    ease: 'power2.in',
+    onComplete: () => {
+      overlay.value.style.pointerEvents = 'none'
+    },
   })
 
   // Fade out content, then collapse circle back to button center
   gsap.to(panelInner.value, {
-    opacity:  0,
+    opacity: 0,
     duration: 0.15,
-    ease:     'power2.in',
+    ease: 'power2.in',
     onComplete: () => {
       gsap.to(panel.value, {
-        clipPath:  `circle(0px at ${originX}px ${originY}px)`,
-        duration:  0.5,
-        ease:      'power4.inOut',
+        clipPath: `circle(0px at ${originX}px ${originY}px)`,
+        duration: 0.5,
+        ease: 'power4.inOut',
         onComplete: () => {
           panel.value.style.pointerEvents = 'none'
           // Reset size so it's invisible while closed
@@ -325,10 +354,10 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 
   gsap.to(navbar.value, {
-    opacity:  1,
+    opacity: 1,
     duration: 1.5,
-    delay:    2,
-    ease:     'power4.out',
+    delay: 2,
+    ease: 'power4.out',
   })
 
   // Dark zone observer
@@ -339,7 +368,7 @@ onMounted(() => {
         isDark.value = entry.isIntersecting
       })
     },
-    { threshold: 0.3 }
+    { threshold: 0.3 },
   )
   darkZones.forEach((zone) => observer.observe(zone))
 })
@@ -356,7 +385,10 @@ onUnmounted(() => {
 
 .menu-btn {
   will-change: transform;
-  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .menu-panel {

@@ -7,7 +7,7 @@
 
         <div class="overflow-hidden px-3">
           <h1
-            class="hero-title font-sofia text-[12vw] lg:text-[14rem] font-[780] leading-[0.75] tracking-[-0.08em]"
+            class="hero-title font-sofia text-[12vw] lg:text-[15rem] font-[780] leading-[0.75] tracking-[-0.08em]"
           >
             WEB&nbsp;DEVELOPER
           </h1>

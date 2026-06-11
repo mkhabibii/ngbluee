@@ -148,7 +148,7 @@ const fetchData = async () => {
     const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false })
     projects.value = data || []
   } else {
-    const { data } = await supabase.from('credentials').select('*').order('created_at', { ascending: false })
+    const { data } = await supabase.from('credentials').select('*').order('created_at', { ascending: true })
     credentials.value = data || []
   }
   loading.value = false
