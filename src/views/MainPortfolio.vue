@@ -12,7 +12,6 @@ import { ScrollTrigger } from 'gsap/all'
 let lenisInstance = null
 
 onMounted(() => {
-  // Matikan restaurasi bawaan browser agar tidak konflik dengan restaurasi manual kita
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual'
   }
@@ -86,7 +85,6 @@ onUnmounted(() => {
     <Essence id="about" />
     <Porto id="showcase" />
     <Credentials id="credential" />
-    <ContactMe id="contact" />
   </main>
 
   <Footer />

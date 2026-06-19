@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MainPortfolio from '../views/MainPortfolio.vue'
 import Login from '../views/admin/Login.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
+import ProjectDetail from '../views/ProjectDetail.vue'
+import Projects from '../views/Projects.vue'
 import { supabase } from '../lib/supabase'
 
 const routes = [
@@ -11,8 +13,11 @@ const routes = [
     path: '/admin', 
     component: Dashboard,
     meta: { requiresAuth: true }
-  }
+  },
+  { path: '/project/:slug', component: ProjectDetail },
+  { path: '/projects', component: Projects }
 ]
+
 
 const router = createRouter({
   history: createWebHistory(),

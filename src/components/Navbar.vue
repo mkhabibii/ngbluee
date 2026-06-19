@@ -1,18 +1,8 @@
 <template>
   <header ref="navbar" style="opacity: 0" class="navbar fixed top-0 left-0 right-0 z-50">
     <nav class="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-4" aria-label="Global">
-      <!-- Brand Name -->
-      <div class="flex lg:flex-1 font-sofia">
-        <a
-          href="#"
-          class="text-3xl lg:text-4xl font-extrabold leading-[0.75] tracking-tight transition-colors hover:opacity-60"
-          :class="isDark ? 'text-white' : 'text-black'"
-          @click="handleBrandClick"
-        >
-          <span class="block">MKH.</span>
-          <span class="block">HABIBI</span>
-        </a>
-      </div>
+      <!-- Brand Name Placeholder -->
+      <div class="flex lg:flex-1 font-sofia" />
 
       <!-- Menu Button -->
       <button
@@ -40,12 +30,6 @@
       @click="closeMenu"
     />
 
-    <!--
-      Panel — NEVER moves position.
-      Reveal/collapse is achieved via clip-path: circle() 
-      centered on the menu button, so it looks like it emerges
-      and collapses back into the button precisely.
-    -->
     <div
       ref="panel"
       class="menu-panel fixed z-[70] flex flex-col overflow-hidden"
@@ -129,6 +113,22 @@
       </div>
     </div>
   </header>
+
+  <!-- Brand Name -->
+  <div
+    ref="brandName"
+    style="opacity: 0"
+    class="fixed top-4 left-4 sm:left-6 lg:left-10 z-50 font-sofia mix-blend-difference pointer-events-none"
+  >
+    <a
+      href="#"
+      class="pointer-events-auto text-3xl lg:text-4xl font-extrabold leading-[0.75] tracking-tight text-white"
+      @click="handleBrandClick"
+    >
+      <span class="block scramble-brand">MKH.</span>
+      <span class="block scramble-brand">HABIBI</span>
+    </a>
+  </div>
 </template>
 
 <script setup>
@@ -160,10 +160,15 @@ const playSound = (type) => {
 
 const handleNavClick = (e, href) => {
   closeMenu(false)
-  if (window.lenis && href.startsWith('#')) {
-    e.preventDefault()
-    window.lenis.scrollTo(href)
-    history.pushState(null, null, href)
+  if (href.startsWith('#')) {
+    if (window.location.pathname !== '/') {
+      e.preventDefault()
+      window.location.href = '/' + href
+    } else if (window.lenis) {
+      e.preventDefault()
+      window.lenis.scrollTo(href)
+      history.pushState(null, null, href)
+    }
   }
 }
 
@@ -176,6 +181,50 @@ const handleBrandClick = (e) => {
 }
 
 const navbar = ref(null)
+const brandName = ref(null)
+
+const scrambleText = (el, duration = 0.8) => {
+  if (el._scrambleTween) {
+    el._scrambleTween.kill()
+  }
+
+  if (!el.dataset.originalText) {
+    el.dataset.originalText = el.textContent.trim()
+  }
+
+  const targetText = el.dataset.originalText
+  const chars = 'ABCD#@%%^&*#@#%*&NOPQRSTUVWXYZ0123456789/#%&&*(@-+)'
+  const length = targetText.length
+  const obj = { val: 0 }
+
+  el._scrambleTween = gsap.to(obj, {
+    val: 1,
+    duration: duration,
+    ease: 'power1.inOut',
+    onUpdate: () => {
+      let currentText = ''
+      for (let i = 0; i < length; i++) {
+        if (targetText[i] === ' ' || targetText[i] === '.') {
+          currentText += targetText[i]
+        } else {
+          const progress = obj.val
+          const threshold = i / length
+          if (progress > threshold) {
+            currentText += targetText[i]
+          } else {
+            currentText += chars[Math.floor(Math.random() * chars.length)]
+          }
+        }
+      }
+      el.textContent = currentText
+    },
+    onComplete: () => {
+      el.textContent = targetText
+      el._scrambleTween = null
+    },
+  })
+}
+
 const menuBtn = ref(null)
 const panel = ref(null)
 const panelInner = ref(null)
@@ -259,6 +308,16 @@ const openMenu = () => {
   const { originX, originY } = getOrigin(w)
   const maxR = getMaxRadius(w, h, originX, originY)
 
+  // Fade out brand name when menu opens
+  if (brandName.value) {
+    gsap.to(brandName.value, {
+      opacity: 0,
+      x: -20,
+      duration: 0.3,
+      ease: 'power2.out',
+    })
+  }
+
   // Set panel to its final size/position, collapsed to a circle at button center
   gsap.set(panel.value, {
     width: w,
@@ -310,6 +369,17 @@ const closeMenu = () => {
   const { w, h } = getPanelSize()
   const { originX, originY } = getOrigin(w)
 
+  // Fade in brand name when menu closes
+  if (brandName.value) {
+    gsap.to(brandName.value, {
+      opacity: 1,
+      x: 0,
+      duration: 0.4,
+      ease: 'power2.out',
+      delay: 0.15,
+    })
+  }
+
   // Button bounce
   gsap
     .timeline()
@@ -326,7 +396,7 @@ const closeMenu = () => {
     },
   })
 
-  // Fade out content, then collapse circle back to button center
+  // Fade out content
   gsap.to(panelInner.value, {
     opacity: 0,
     duration: 0.15,
@@ -338,7 +408,6 @@ const closeMenu = () => {
         ease: 'power4.inOut',
         onComplete: () => {
           panel.value.style.pointerEvents = 'none'
-          // Reset size so it's invisible while closed
           gsap.set(panel.value, { width: 0, height: 0, clipPath: 'circle(0px at 50% 50%)' })
         },
       })
@@ -353,12 +422,23 @@ const handleScroll = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 
-  gsap.to(navbar.value, {
+  gsap.to([navbar.value, brandName.value], {
     opacity: 1,
     duration: 1.5,
     delay: 2,
     ease: 'power4.out',
   })
+
+  // Brand name hover scramble
+  if (brandName.value) {
+    const brandLink = brandName.value.querySelector('a')
+    if (brandLink) {
+      const spans = brandLink.querySelectorAll('.scramble-brand')
+      brandLink.addEventListener('mouseenter', () => {
+        spans.forEach((span) => scrambleText(span, 0.8))
+      })
+    }
+  }
 
   // Dark zone observer
   const darkZones = document.querySelectorAll('.dark-zone')

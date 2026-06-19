@@ -1,5 +1,4 @@
 <template>
-  <!-- Bagian Marquee tetap (sudah oke) -->
   <div class="relative w-full h-[300px] overflow-hidden bg-[#f3f3f3] will-change-transform">
     <div
       class="absolute inset-0 bg-black z-0"
@@ -31,6 +30,200 @@
       </div>
     </div>
   </div>
+
+  <!-- Showcase -->
+  <section
+    class="dark-zone showcase-section bg-black text-white py-24 px-4 sm:px-6 lg:px-12 relative" id="showcase"
+  >
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end w-full mb-8 sm:mb-12 gap-4">
+      <div class="title overflow-hidden">
+        <h2
+          class="showcase font-extrabold font-sofia text-[12vw] sm:text-[8vw] lg:text-[7rem] tracking-[-0.07em] leading-none text-white"
+        >
+          SHOWCASE
+        </h2>
+      </div>
+      <div class="pb-0 sm:pb-2">
+        <router-link
+          to="/projects"
+          class="group inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 sm:px-5 sm:py-2.5 font-manrope text-sm sm:text-base font-semibold text-black hover:bg-neutral-200 transition-all duration-300 shadow-md hover:shadow-lg"
+        >
+          <span>More</span>
+          <span
+            class="inline-block w-2 h-2 rounded-full bg-black transition-transform group-hover:scale-125"
+          />
+        </router-link>
+      </div>
+    </div>
+
+    <!-- Accordion Showcase  -->
+    <div
+      ref="wrapperRef"
+      class="accordion-wrapper dark-zone relative -mx-4 sm:-mx-6 lg:-mx-12"
+      @mousemove="onMouseMove"
+      @mouseleave="onMouseLeave"
+    >
+      <div
+        ref="accordionRef"
+        class="accordion-container lg:h-[620px] flex flex-col lg:flex-row bg-black border-t border-white select-none overflow-hidden"
+      >
+        <div
+          v-for="(project, index) in displayProjects"
+          :key="project.id"
+          :ref="(el) => setItemRef(el, index)"
+          @click="onClick(index)"
+          class="accordion-item relative p-4 sm:p-5 lg:p-8 flex flex-col justify-between overflow-hidden bg-black cursor-pointer lg:cursor-default"
+          :class="[
+            activeIndex === index
+              ? 'flex-[2.4] cursor-default'
+              : activeIndex === null
+                ? 'flex-[1]'
+                : 'flex-[0.65]',
+            activeIndex === index ? 'is-active-mobile' : '',
+          ]"
+        >
+          <!-- Borders: Horizontal separator on mobile, vertical on desktop -->
+          <div
+            v-if="index > 0"
+            class="lg:hidden absolute left-0 right-0 top-0 border-t border-white/30 pointer-events-none"
+          />
+          <div
+            v-if="index > 0 && activeIndex !== index && activeIndex !== index - 1"
+            class="hidden lg:block absolute left-0 top-0 bottom-0 border-l border-white pointer-events-none"
+          />
+
+          <!-- Desktop hook borders (hidden on mobile) -->
+          <div
+            v-if="activeIndex === index"
+            class="hidden lg:block absolute left-0 top-0 bottom-2 border-l border-white pointer-events-none"
+          />
+          <div
+            v-if="activeIndex === index"
+            class="hidden lg:block absolute bottom-2 left-0 w-3.5 h-2 border-b border-l border-white pointer-events-none"
+          />
+          <div
+            v-if="activeIndex === index"
+            class="hidden lg:block absolute right-0 top-0 bottom-2 border-r border-white pointer-events-none"
+          />
+          <div
+            v-if="activeIndex === index"
+            class="hidden lg:block absolute bottom-2 right-0 w-3.5 h-2 border-b border-r border-white pointer-events-none"
+          />
+
+          <!-- INACTIVE STATE -->
+          <div
+            :ref="(el) => setInactiveRef(el, index)"
+            class="inactive-state flex flex-row lg:flex-col items-center lg:items-start gap-3 lg:gap-2 pointer-events-none"
+          >
+            <span class="font-sofia text-sm lg:text-lg font-normal tracking-wider text-neutral-400"
+              >SC-{{ index + 1 }}</span
+            >
+            <span
+              class="font-sofia font-extrabold text-base sm:text-xl lg:text-3xl text-white uppercase tracking-tighter leading-none"
+            >
+              {{ project.title }}
+            </span>
+            <!-- Mobile expand indicator -->
+            <svg
+              class="lg:hidden ml-auto w-4 h-4 text-neutral-500 transition-transform duration-300"
+              :class="activeIndex === index ? 'rotate-180' : ''"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+
+          <!-- ACTIVE STATE -->
+          <div
+            :ref="(el) => setActiveRef(el, index)"
+            class="active-state pointer-events-none opacity-0"
+            :class="[
+              activeIndex === index
+                ? 'relative mt-4 lg:mt-0 lg:absolute lg:inset-0 lg:p-8 flex flex-col lg:justify-between'
+                : 'absolute inset-0 p-4 lg:p-8 flex flex-col lg:justify-between'
+            ]"
+          >
+            <!-- Top Row (desktop only) -->
+            <div class="active-header hidden lg:flex justify-between items-start pb-4">
+              <span
+                class="font-sofia font-black text-4xl tracking-tighter text-white leading-none"
+              >
+                00-{{ index + 1 }}
+              </span>
+              <span
+                class="font-sofia font-extrabold text-xl lg:text-3xl text-white uppercase tracking-tight flex items-center gap-2"
+              >
+                <span class="font-light">//</span> {{ project.title }}
+              </span>
+            </div>
+
+            <!-- Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6 items-start lg:items-center flex-grow lg:py-4">
+              <!-- Features -->
+              <div class="lg:col-span-6 space-y-2 lg:space-y-4">
+                <div
+                  class="active-features-label font-manrope font-bold text-sm sm:text-base lg:text-3xl tracking-tight mb-2 lg:mb-5"
+                >
+                  Features
+                </div>
+                <div class="space-y-1.5 lg:space-y-1">
+                  <div
+                    v-for="(feature, fIndex) in getFeatures(project)"
+                    :key="fIndex"
+                    class="active-feature font-sofia font-bold text-xs sm:text-sm lg:text-lg uppercase tracking-wide flex items-center gap-2"
+                  >
+                    <span class="font-semibold">/</span> {{ feature }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image -->
+              <div class="lg:col-span-6 flex lg:justify-end justify-center">
+                <div
+                  class="active-image relative w-full max-w-[200px] sm:max-w-[240px] lg:max-w-[280px] aspect-[4/3] rounded-lg lg:rounded-xl overflow-hidden border border-white/10 shadow-2xl"
+                >
+                  <img
+                    :src="project.image_url"
+                    class="w-full h-full object-cover"
+                    :alt="project.title"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom -->
+            <div
+              class="active-bottom pt-3 lg:pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4"
+            >
+              <p class="font-manrope text-[11px] sm:text-xs max-w-lg leading-relaxed text-neutral-400">
+                {{ project.tagline || project.description }}
+              </p>
+              <router-link
+                :to="'/project/' + getSlug(project)"
+                class="active-btn inline-flex items-center gap-2 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-white text-black text-sm sm:text-base font-manrope font-bold hover:bg-black hover:text-white hover:border border-white transition-all duration-300 shadow-md hover:shadow-lg whitespace-nowrap self-end sm:self-auto pointer-events-auto"
+              >
+                View Project
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  class="w-4 h-4 sm:w-4 sm:h-4"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -42,68 +235,302 @@ import { supabase } from '../lib/supabase'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const filters = ['All', 'Web', 'UI/UX', 'Mobile']
-const activeFilter = ref('All')
 const allProjects = ref([])
+const activeIndex = ref(null)
+let leaveTimer = null
+let revealTl = null // GSAP timeline for the active card reveal
+
+// Template refs
+const wrapperRef = ref(null)
+const accordionRef = ref(null)
+const itemRefs = ref([])
+const inactiveRefs = ref([])
+const activeRefs = ref([])
+
+const setItemRef = (el, index) => {
+  if (el) itemRefs.value[index] = el
+}
+const setInactiveRef = (el, index) => {
+  if (el) inactiveRefs.value[index] = el
+}
+const setActiveRef = (el, index) => {
+  if (el) activeRefs.value[index] = el
+}
+
+watch(activeIndex, (newIdx, oldIdx) => {
+  if (revealTl) {
+    revealTl.kill()
+    revealTl = null
+  }
+
+  activeRefs.value.forEach((el) => {
+    if (!el) return
+    gsap.set(el, { opacity: 0, pointerEvents: 'none' })
+  })
+  inactiveRefs.value.forEach((el) => {
+    if (!el) return
+    gsap.set(el, { opacity: 1 })
+  })
+
+  if (newIdx === null) return
+
+  const activeEl = activeRefs.value[newIdx]
+  const inactiveEl = inactiveRefs.value[newIdx]
+  if (!activeEl) return
+
+  if (inactiveEl) {
+    gsap.to(inactiveEl, { opacity: 0, duration: 0.25, ease: 'power2.in' })
+  }
+
+  revealTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+  revealTl.to(activeEl, {
+    opacity: 1,
+    pointerEvents: 'auto',
+    duration: 0.1,
+  })
+
+  const header = activeEl.querySelector('.active-header')
+  if (header) {
+    revealTl.fromTo(header, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5 }, 0.05)
+  }
+
+  const featLabel = activeEl.querySelector('.active-features-label')
+  if (featLabel) {
+    revealTl.fromTo(featLabel, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35 }, 0.15)
+  }
+
+  const features = activeEl.querySelectorAll('.active-feature')
+  if (features.length) {
+    revealTl.fromTo(
+      features,
+      { opacity: 0, x: -20 },
+      { opacity: 1, x: 0, duration: 0.4, stagger: 0.07 },
+      0.2,
+    )
+  }
+
+  const image = activeEl.querySelector('.active-image')
+  if (image) {
+    revealTl.fromTo(
+      image,
+      { opacity: 0, clipPath: 'inset(10% 10% 10% 10%)', scale: 1.05 },
+      { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', scale: 1, duration: 0.6 },
+      0.15,
+    )
+  }
+
+  const bottom = activeEl.querySelector('.active-bottom')
+  if (bottom) {
+    revealTl.fromTo(bottom, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.45 }, 0.35)
+  }
+})
+
+const mockProjects = [
+  {
+    id: 'mock-1',
+    title: 'Web Design',
+    category: 'Web',
+    tagline:
+      'Premium custom web designs focused on immersive storytelling and aesthetic typography.',
+    features: [
+      'Layout Design',
+      'Typography Systems',
+      'Interactive Prototypes',
+      'Micro-interactions',
+    ],
+    image_url:
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop',
+    year: '2025',
+  },
+  {
+    id: 'mock-2',
+    title: 'UI/UX Design',
+    category: 'UI/UX',
+    tagline: 'User-centered wireframes, mockups and interactive user flows built for modern apps.',
+    features: [
+      'Figma Design Systems',
+      'User Journey Mapping',
+      'High-Fi Prototyping',
+      'Usability Testing',
+    ],
+    image_url:
+      'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=600&auto=format&fit=crop',
+    year: '2025',
+  },
+  {
+    id: 'mock-3',
+    title: 'Creative Design',
+    category: 'UI/UX',
+    tagline: 'Crafting brand assets, layouts, and unique visual elements for high-impact presence.',
+    features: [
+      'Brand Guidelines',
+      'Creative Art Direction',
+      'Vector Asset Sets',
+      'Visual Identity Design',
+    ],
+    image_url:
+      'https://images.unsplash.com/photo-1541462608141-2ff580dd0e4e?q=80&w=600&auto=format&fit=crop',
+    year: '2025',
+  },
+  {
+    id: 'mock-4',
+    title: 'Product & App Design',
+    category: 'Mobile',
+    tagline:
+      'Product and app design focused on simplicity, consistency, and growth – crafted to deliver the best digital solutions.',
+    features: ['Mobile & Web Apps', 'Design Systems', 'Complex Interactions', 'Scalable Solutions'],
+    image_url:
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&auto=format&fit=crop',
+    year: '2025',
+  },
+  {
+    id: 'mock-5',
+    title: 'Development',
+    category: 'Web',
+    tagline:
+      'Responsive and robust coding solutions utilizing modern frameworks and performance-tuned APIs.',
+    features: ['Vue 3 & React', 'RESTful API Integration', 'Performance Tuning', 'SEO & Semantics'],
+    image_url:
+      'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop',
+    year: '2025',
+  },
+]
 
 const fetchProjects = async () => {
-  const { data } = await supabase
-    .from('projects')
-    .select('*')
-    .order('created_at', { ascending: false })
-  allProjects.value = data || []
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .order('created_at', { ascending: false })
+    if (error) throw error
+    allProjects.value = data || []
+  } catch (err) {
+    console.error('Error fetching projects:', err)
+  }
 }
 
-const filteredProjects = computed(() => {
-  if (activeFilter.value === 'All') return allProjects.value
-  return allProjects.value.filter((p) => p.category === activeFilter.value)
+const displayProjects = computed(() => {
+  const favorites = allProjects.value.filter((p) => p.is_favorite === true)
+  const nonFavorites = allProjects.value.filter((p) => p.is_favorite !== true)
+  const projects = [...favorites]
+
+  if (projects.length < 5) {
+    const spaceLeft = 5 - projects.length
+    projects.push(...nonFavorites.slice(0, spaceLeft))
+  }
+
+  if (projects.length < 5) {
+    const needed = 5 - projects.length
+    const availableMocks = mockProjects.filter(
+      (mock) => !projects.some((p) => p.title.toLowerCase() === mock.title.toLowerCase()),
+    )
+    const fill = availableMocks.length >= needed ? availableMocks : mockProjects
+    projects.push(...fill.slice(0, needed))
+  }
+
+  return projects.slice(0, 5)
 })
 
-const selectedProject = ref(null)
-const isModalOpen = ref(false)
-const activeSlideIndex = ref(0)
-const openIndex = ref(null) // untuk toggle mobile
+const getFeatures = (project) => {
+  if (project.features && Array.isArray(project.features) && project.features.length > 0) {
+    const valid = project.features.filter((f) => f && f.trim() !== '')
+    if (valid.length > 0) return valid.slice(0, 4)
+  }
+  return ['Interactive Experience', 'Responsive Design', 'Optimized Performance']
+}
 
-const currentImage = computed(() => {
-  if (!selectedProject.value) return ''
-  if (activeSlideIndex.value === 0) return selectedProject.value.image_url
-  return selectedProject.value.screenshots[activeSlideIndex.value - 1]?.image_url
-})
+const slugify = (text) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '')
+}
 
-// Toggle accordion di mobile (click buka/tutup)
-const toggleMobile = (index) => {
+const getSlug = (project) => {
+  if (project.id && project.id.startsWith('mock-')) {
+    const slugMap = {
+      'mock-1': 'web-design',
+      'mock-2': 'ui-ux-design',
+      'mock-3': 'creative-design',
+      'mock-4': 'product-app-design',
+      'mock-5': 'development'
+    }
+    return slugMap[project.id] || project.id
+  }
+  return slugify(project.title)
+}
+
+const onMouseMove = (event) => {
+  if (window.innerWidth < 1024) return
+
+  // Cancel any pending leave timer
+  if (leaveTimer) {
+    clearTimeout(leaveTimer)
+    leaveTimer = null
+  }
+
+  const wrapper = wrapperRef.value
+  if (!wrapper) return
+
+  const wrapperRect = wrapper.getBoundingClientRect()
+  const relativeX = event.clientX - wrapperRect.left
+
+  // Calculate dynamic boundaries based on current activeIndex
+  const boundaries = []
+  let accumulatedFraction = 0
+
+  for (let i = 0; i < 5; i++) {
+    let fraction = 0.13
+    if (activeIndex.value === null) {
+      fraction = 0.20
+    } else if (activeIndex.value === i) {
+      fraction = 0.48
+    }
+    accumulatedFraction += fraction
+    boundaries.push(accumulatedFraction * wrapperRect.width)
+  }
+
+  // Find which column relativeX falls into
+  let newIndex = 0
+  for (let i = 0; i < 5; i++) {
+    if (relativeX <= boundaries[i]) {
+      newIndex = i
+      break
+    }
+  }
+
+  if (activeIndex.value !== newIndex) {
+    activeIndex.value = newIndex
+  }
+}
+
+const onMouseLeave = () => {
+  if (window.innerWidth < 1024) return
+  if (leaveTimer) clearTimeout(leaveTimer)
+  leaveTimer = setTimeout(() => {
+    activeIndex.value = null
+    leaveTimer = null
+  }, 150)
+}
+
+// Click events for mobile/tablet toggle
+const onClick = (index) => {
   if (window.innerWidth < 1024) {
-    openIndex.value = openIndex.value === index ? null : index
+    activeIndex.value = activeIndex.value === index ? null : index
   }
-}
-
-watch(isModalOpen, (isOpen) => {
-  if (isOpen) {
-    document.body.style.overflow = 'hidden'
-    activeSlideIndex.value = 0
-  } else {
-    document.body.style.overflow = ''
-  }
-})
-
-const openModal = (project) => {
-  selectedProject.value = project
-  isModalOpen.value = true
-}
-
-const closeModal = () => {
-  isModalOpen.value = false
-}
-
-const handleKey = (e) => {
-  if (e.key === 'Escape' && isModalOpen.value) closeModal()
 }
 
 onMounted(async () => {
   await fetchProjects()
   await nextTick()
 
-  // Title Animation
+  // Title Scroll Animation 
   const title = new SplitType('.showcase', { types: 'chars' })
   gsap.set(title.chars, { yPercent: -120, opacity: 0 })
   gsap
@@ -117,7 +544,7 @@ onMounted(async () => {
       stagger: { each: 0.05, from: 'center' },
     })
 
-  // Accordion Stagger
+  // Accordion Columns Stagger Reveal
   gsap.fromTo(
     '.accordion-item',
     { y: 50, opacity: 0 },
@@ -130,104 +557,81 @@ onMounted(async () => {
       ease: 'power2.out',
     },
   )
-
-  window.addEventListener('keydown', handleKey)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleKey)
-  document.body.style.overflow = ''
+  if (leaveTimer) {
+    clearTimeout(leaveTimer)
+    leaveTimer = null
+  }
+  if (revealTl) {
+    revealTl.kill()
+    revealTl = null
+  }
 })
 </script>
 
 <style>
-/* EXQUISITE MODAL TRANSITION */
-.modal-exquisite-enter-active,
-.modal-exquisite-leave-active {
-  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.modal-exquisite-enter-from,
-.modal-exquisite-leave-to {
-  transform: scale(0.9) translateY(100%);
-  opacity: 0;
-  filter: blur(20px);
-}
-
-/* GLITCH IN ANIMATION FOR IMAGES */
-.animate-glitch-in {
-  animation: glitchIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes glitchIn {
-  0% {
-    opacity: 0;
-    transform: scale(1.1) rotate(1deg);
-    filter: contrast(1.5) brightness(2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0);
-    filter: contrast(1) brightness(1);
-  }
-}
-
-/* REVEAL TEXT ANIMATION */
-.reveal-text {
-  animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes reveal {
-  from {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-    transform: translateY(50px);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    transform: translateY(0);
-  }
-}
-
-.modal-open {
-  overflow: hidden;
-}
-
 /* ANIMASI MARQUEE */
 @keyframes marquee-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 @keyframes marquee-right {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-
-/* =============================================
-   ACCORDION — MOBILE: max-height toggle
-   ============================================= */
-.accordion-item {
-  /* Mobile default: collapsed */
-  max-height: 100px;
-  transition: max-height 0.7s cubic-bezier(0.23, 1, 0.32, 1),
-              background 0.3s ease,
-              flex 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.accordion-item.is-open {
-  /* Mobile open: expanded */
-  max-height: 560px;
-}
-
-/* Mobile: tampilkan konten saat is-open */
-.accordion-item.is-open .item-content {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-/* Desktop: reset max-height, pakai flex-grow */
-@media (min-width: 1024px) {
-  .accordion-item {
-    max-height: none !important;
+  from {
+    transform: translateX(-50%);
   }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.showcase-section {
+  overflow-x: clip;
+}
+
+.accordion-container {
+  contain: layout style;
+}
+
+.accordion-item {
+  transition:
+    flex-grow 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    max-height 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Mobile / Tablet: vertical stack accordion */
+@media (max-width: 1023px) {
+  .accordion-item {
+    min-height: 56px;
+    max-height: 56px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .accordion-item.is-active-mobile {
+    max-height: 600px;
+    min-height: auto;
+  }
+}
+
+/* Tablet specific tweaks */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .accordion-item {
+    min-height: 64px;
+    max-height: 64px;
+  }
+  .accordion-item.is-active-mobile {
+    max-height: 650px;
+  }
+}
+
+.showcase .char {
+  display: inline-block;
 }
 </style>

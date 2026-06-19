@@ -4,7 +4,7 @@
       
       <!-- 1. Cover Utama -->
       <div class="md:col-span-2">
-        <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Project Cover (Utama)</label>
+        <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Project Cover</label>
         <div 
           @click="$refs.fileInput.click()"
           class="w-full aspect-video rounded-2xl border-2 border-dashed border-white/10 hover:border-purple-500/50 bg-white/5 flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all group"
@@ -18,7 +18,7 @@
       </div>
 
       <!-- 2. Informasi Dasar -->
-      <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-6">
         <div>
           <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Judul Project</label>
           <input v-model="form.title" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-purple-500/50 outline-none" placeholder="Webstore" />
@@ -34,6 +34,12 @@
         <div>
           <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Tahun</label>
           <input v-model="form.year" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none" placeholder="2025" />
+        </div>
+        <div class="flex flex-col justify-end pb-3">
+          <label class="flex items-center gap-3 cursor-pointer select-none">
+            <input v-model="form.is_favorite" type="checkbox" class="w-5 h-5 accent-purple-600 rounded bg-white/5 border border-white/10 cursor-pointer" />
+            <span class="text-xs font-bold uppercase tracking-wider text-gray-300">Showcase Utama</span>
+          </label>
         </div>
       </div>
 
@@ -61,6 +67,16 @@
           <button @click="removeFeature(index)" class="p-2 text-red-500 hover:bg-red-500/10 rounded-lg">✕</button>
         </div>
         <button @click="addFeature" class="mt-2 text-xs font-bold text-purple-400 hover:text-purple-300 uppercase tracking-widest">+ Tambah Fitur</button>
+      </div>
+
+      <!-- Tech Stack (Dynamic List) -->
+      <div class="md:col-span-2">
+        <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Tech Stack (Teknologi)</label>
+        <div v-for="(t, index) in form.tech" :key="index" class="flex gap-2 mb-2">
+          <input v-model="form.tech[index]" type="text" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 outline-none" placeholder="Contoh: Vue 3" />
+          <button @click="removeTech(index)" class="p-2 text-red-500 hover:bg-red-500/10 rounded-lg">✕</button>
+        </div>
+        <button @click="addTech" class="mt-2 text-xs font-bold text-purple-400 hover:text-purple-300 uppercase tracking-widest">+ Tambah Teknologi</button>
       </div>
 
       <!-- 5. Screenshots & Detail Fitur (Multiple Images) -->
@@ -135,6 +151,8 @@ const form = reactive({
   year: props.initialData?.year || '2025',
   description: props.initialData?.description || '',
   features: props.initialData?.features || [''],
+  tech: props.initialData?.tech || [''],
+  is_favorite: props.initialData?.is_favorite || false,
   github_url: props.initialData?.github_url || '',
   demo_url: props.initialData?.demo_url || '',
   image_url: props.initialData?.image_url || ''
@@ -150,6 +168,9 @@ onBeforeUpdate(() => {
 
 const addFeature = () => form.features.push('')
 const removeFeature = (index) => form.features.splice(index, 1)
+
+const addTech = () => form.tech.push('')
+const removeTech = (index) => form.tech.splice(index, 1)
 
 const addScreenshot = () => {
   screenshotsList.value.push({ title: '', desc: '', image_url: '', file: null, preview: null })
@@ -184,7 +205,7 @@ const handleSubmit = async () => {
     // 1. Upload Cover Utama
     if (imageFile.value) {
       const fileName = `${Date.now()}_main.webp`
-      const { data, error } = await supabase.storage.from('portofolio').upload(`projects/${fileName}`, imageFile.value)
+      const { error } = await supabase.storage.from('portofolio').upload(`projects/${fileName}`, imageFile.value)
       if (error) throw error
       const { data: urlData } = supabase.storage.from('portofolio').getPublicUrl(`projects/${fileName}`)
       final_image_url = urlData.publicUrl
@@ -213,8 +234,13 @@ const handleSubmit = async () => {
     }
 
     // 3. Simpan ke Database
+    const cleanFeatures = form.features.filter(f => f && f.trim() !== '')
+    const cleanTech = form.tech.filter(t => t && t.trim() !== '')
+
     const projectData = {
       ...form,
+      features: cleanFeatures,
+      tech: cleanTech,
       image_url: final_image_url,
       screenshots: finalScreenshots
     }

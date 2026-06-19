@@ -7,7 +7,7 @@
 
         <div class="overflow-hidden px-3">
           <h1
-            class="hero-title font-sofia text-[12vw] lg:text-[15rem] font-[780] leading-[0.75] tracking-[-0.08em]"
+            class="hero-title font-sofia text-[12vw] lg:text-[16rem] font-[780] leading-[0.75] tracking-[-0.08em]"
           >
             WEB&nbsp;DEVELOPER
           </h1>
@@ -19,7 +19,7 @@
         >
       </div>
 
-      <!-- CONTENT CENTER GROUP -->
+      <!-- CONTENT CENTER -->
       <div class="relative mt-[10rem] sm:mt-[18rem] lg:mt-[12rem] flex justify-center">
         <div class="flex flex-col lg:flex-row items-end gap-4 lg:gap-8">
           <!-- TEXT -->
@@ -43,7 +43,7 @@
       </div>
 
       <div class="addYap mt-14 lg:mt-18 lg:mb-18">
-        <div class="yap">
+        <div class="sub-title yap">
           <p class="font-spline font-thin text-center text-sm md:text-md lg:text-lg">
             ORA PERLU PADANG, SEMENTING MURUB
           </p>
@@ -60,6 +60,9 @@
 import { onMounted } from 'vue'
 import gsap from 'gsap'
 import SplitType from 'split-type'
+import ScrambleTextPlugin from 'gsap/ScrambleTextPlugin'
+
+gsap.registerPlugin(ScrambleTextPlugin)
 
 onMounted(() => {
   const text = new SplitType('.hero-title', { types: 'chars' })
@@ -79,16 +82,16 @@ onMounted(() => {
   gsap.from(orderedChars, {
     y: -120,
     opacity: 0,
-    duration: 2,
+    duration: 1.3,
     ease: 'power4.out',
-    stagger: 0.1,
+    stagger: 0.09,
   })
 
   // Sub Title
   gsap.from('.sub-title', {
     y: -30,
     opacity: 0,
-    duration: 1.5,
+    duration: 1.2,
     ease: 'power4.out',
     stagger: 0.2,
     delay: 2,
@@ -98,7 +101,7 @@ onMounted(() => {
   gsap.from('.habibi-img', {
     clipPath: 'inset(0 0 100% 0)',
     opacity: 0,
-    duration: 3,
+    duration: 1.2,
     ease: 'power4.out',
     delay: 2,
   })
