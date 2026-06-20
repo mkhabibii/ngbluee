@@ -10,7 +10,6 @@
       <!-- Logo/Title -->
       <div class="text-center mb-10">
         <h1 class="text-4xl font-black text-white tracking-tighter mb-2">ADMIN PORTAL</h1>
-        <p class="text-gray-500 uppercase tracking-[0.3em] text-xs">Muhammad Khoerul Habibi</p>
       </div>
 
       <!-- Login Card -->
@@ -22,8 +21,8 @@
               v-model="email"
               type="email" 
               required
-              class="w-full bg-white/[0.05] border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-purple-500/50 transition-all placeholder:text-gray-600"
-              placeholder="admin@habibi.com"
+              class="w-full bg-white/[0.05] border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all placeholder:text-gray-600"
+              placeholder="admin@example.com"
             />
           </div>
 
@@ -33,7 +32,7 @@
               v-model="password"
               type="password" 
               required
-              class="w-full bg-white/[0.05] border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-purple-500/50 transition-all placeholder:text-gray-600"
+              class="w-full bg-white/[0.05] border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all placeholder:text-gray-600"
               placeholder="••••••••"
             />
           </div>
@@ -45,7 +44,7 @@
           <button 
             :disabled="loading"
             type="submit"
-            class="w-full bg-white text-black font-bold py-4 rounded-2xl hover:bg-purple-500 hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
+            class="w-full bg-white text-black font-bold py-4 rounded-2xl hover:bg-emerald-500 hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
           >
             <span v-if="loading">AUTHENTICATING...</span>
             <span v-else class="flex items-center justify-center gap-2">
@@ -59,7 +58,7 @@
       <!-- Back to Site -->
       <div class="text-center mt-8">
         <router-link to="/" class="text-gray-500 hover:text-white text-sm transition-colors flex items-center justify-center gap-2">
-          ← Back to Portfolio
+          Back to Portfolio
         </router-link>
       </div>
     </div>

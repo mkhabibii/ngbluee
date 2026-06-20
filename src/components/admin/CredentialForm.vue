@@ -1,51 +1,69 @@
 <template>
-  <div class="space-y-6 text-white">
-    <!-- Image Upload -->
-    <div>
-      <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Certificate Image</label>
-      <div 
-        @click="$refs.fileInput.click()"
-        class="w-full aspect-[4/3] rounded-2xl border-2 border-dashed border-white/10 hover:border-purple-500/50 bg-white/5 flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all group"
-      >
-        <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" />
-        <div v-else class="text-center p-6">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2 text-gray-500 group-hover:text-purple-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          <p class="text-sm text-gray-500">Click to upload certificate</p>
+  <div class="space-y-8 text-white pb-6">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+      
+      <!-- Left Column: Certificate Preview -->
+      <div class="md:col-span-2 space-y-4">
+        <label class="block text-xs font-bold uppercase tracking-widest text-purple-400/80 ml-1">Certificate Image</label>
+        <div 
+          @click="$refs.fileInput.click()"
+          class="w-full aspect-[4/3] rounded-2xl border border-dashed border-white/10 hover:border-purple-500/50 bg-white/[0.02] flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all group relative"
+        >
+          <div v-if="imagePreview" class="w-full h-full relative">
+            <img :src="imagePreview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <p class="text-xs font-bold uppercase tracking-widest bg-black/60 px-4 py-2 rounded-full border border-white/10">Change Image</p>
+            </div>
+          </div>
+          <div v-else class="text-center p-6 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto group-hover:bg-purple-500/10 group-hover:text-purple-400 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-400">Click to upload certificate</p>
+            <p class="text-[10px] text-gray-600">JPG, PNG, or WEBP</p>
+          </div>
+          <input type="file" ref="fileInput" class="hidden" @change="handleFileChange" accept="image/*" />
         </div>
-        <input type="file" ref="fileInput" class="hidden" @change="handleFileChange" accept="image/*" />
+      </div>
+
+      <!-- Right Column: Details Info -->
+      <div class="md:col-span-3 space-y-6">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-widest text-purple-400/80 ml-1 mb-2">Certificate Title</label>
+          <input v-model="form.title" type="text" class="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-3.5 outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all" placeholder="e.g. Google UX Design Professional" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-widest text-purple-400/80 ml-1 mb-2">Organization</label>
+          <input v-model="form.organization" type="text" class="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-3.5 outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all" placeholder="e.g. Coursera / Google" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-widest text-purple-400/80 ml-1 mb-2">Release Date / Year</label>
+          <input v-model="form.year" type="text" class="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-3.5 outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all" placeholder="e.g. Dec 2024" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-widest text-purple-400/80 ml-1 mb-2">Credential URL / Verification Link</label>
+          <input v-model="form.credential_url" type="text" class="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-3.5 outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all" placeholder="https://coursera.org/verify/..." />
+        </div>
       </div>
     </div>
 
-    <!-- Title -->
-    <div>
-      <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Certificate Title</label>
-      <input v-model="form.title" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500/50" placeholder="Google UX Design..." />
-    </div>
-
-    <!-- Organization -->
-    <div>
-      <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Organization</label>
-      <input v-model="form.organization" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500/50" placeholder="Meta, Google, etc." />
-    </div>
-
-    <!-- Year / Release Date -->
-    <div>
-      <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Release Date / Year</label>
-      <input v-model="form.year" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500/50" placeholder="Dec 2024" />
-    </div>
-
-    <!-- Credential URL -->
-    <div>
-      <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Credential URL / Verification Link</label>
-      <input v-model="form.credential_url" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500/50" placeholder="https://www.coursera.org/account/accomplishments/..." />
-    </div>
-
-    <div class="flex justify-end gap-3 mt-8">
-      <button @click="$emit('cancel')" class="px-6 py-3 rounded-full text-gray-400 hover:text-white transition-colors">Cancel</button>
+    <!-- Actions Buttons -->
+    <div class="flex justify-end gap-4 pt-6 border-t border-white/10">
+      <button 
+        @click="$emit('cancel')" 
+        type="button"
+        class="px-8 py-3.5 rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/5 text-gray-300 hover:text-white font-bold transition-all cursor-pointer active:scale-95"
+      >
+        Cancel
+      </button>
       <button 
         @click="handleSubmit" 
         :disabled="loading"
-        class="bg-purple-600 hover:bg-purple-700 text-white px-10 py-3 rounded-full font-bold transition-all disabled:opacity-50"
+        type="button"
+        class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-10 py-3.5 rounded-xl font-bold transition-all disabled:opacity-50 shadow-lg hover:shadow-purple-500/20 cursor-pointer active:scale-95"
       >
         {{ loading ? 'Saving...' : 'Save Credential' }}
       </button>
