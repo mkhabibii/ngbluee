@@ -2,7 +2,6 @@
   <div class="space-y-12 text-white pb-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
       
-      <!-- Left Column: Media & Meta Info -->
       <div class="lg:col-span-5 space-y-8">
         <!-- 1. Cover Utama -->
         <div class="bg-white/[0.01] border border-white/10 rounded-3xl p-6 space-y-4">
