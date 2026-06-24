@@ -24,13 +24,39 @@
             MKH.<br />HABIBI
           </div>
           <ul
-            class="grid grid-cols-2 sm:grid-cols-1 gap-4 font-manrope text-xs md:text-base font-bold text-gray-500 uppercase tracking-[0.2em]"
+            class="grid grid-cols-2 sm:grid-cols-1 gap-4 font-manrope text-xs md:text-base font-bold text-gray-500 tracking-[0.2em]"
           >
-            <li><a href="#home" @click="handleNavClick($event, '#home')" class="hover:text-white transition-colors">Home</a></li>
-            <li><a href="#about" @click="handleNavClick($event, '#about')" class="hover:text-white transition-colors">About</a></li>
-            <li><a href="#showcase" @click="handleNavClick($event, '#showcase')" class="hover:text-white transition-colors">Showcase</a></li>
             <li>
-              <a href="#credential" @click="handleNavClick($event, '#credential')" class="hover:text-white transition-colors">Credentials</a>
+              <a
+                href="#home"
+                @click="handleNavClick($event, '#home')"
+                class="hover:text-white transition-colors"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="#about"
+                @click="handleNavClick($event, '#about')"
+                class="hover:text-white transition-colors"
+                >Essence</a
+              >
+            </li>
+            <li>
+              <a
+                href="#showcase"
+                @click="handleNavClick($event, '#showcase')"
+                class="hover:text-white transition-colors"
+                >Showcase</a
+              >
+            </li>
+            <li>
+              <a
+                href="#credential"
+                @click="handleNavClick($event, '#credential')"
+                class="hover:text-white transition-colors"
+                >Credentials</a
+              >
             </li>
           </ul>
         </div>
@@ -38,7 +64,7 @@
         <!-- Contact Info -->
         <div class="lg:col-span-3 text-left">
           <p
-            class="font-manrope text-[9px] md:text-[14px] uppercase tracking-[0.4em] text-gray-400 mb-6 md:mb-8"
+            class="font-sofia font-semibold text-[9px] md:text-[1.5rem] uppercase tracking-tight mb-6 md:mb-8"
           >
             Contact
           </p>
@@ -46,18 +72,18 @@
             <li>
               <a
                 href="mailto:habiboy0607@gmail.com"
-                class="hover:text-gray-400 transition-colors break-all md:break-normal text-white/80"
+                class="hover:text-white transition-colors break-all md:break-normal text-gray-400"
                 >habiboy0607@gmail.com</a
               >
             </li>
-            <li class="text-gray-500 font-manrope">+62 895 3850 51731</li>
+            <li class="text-gray-500 font-manrope">+6281227556950</li>
           </ul>
         </div>
 
         <!-- Socials -->
         <div class="lg:col-span-2 text-left">
           <p
-            class="font-manrope text-[9px] md:text-[14px] uppercase tracking-[0.4em] text-gray-400 mb-6 md:mb-8"
+            class="font-sofia font-semibold text-[9px] md:text-[1.5rem] uppercase tracking-tight mb-6 md:mb-8"
           >
             Social
           </p>
@@ -68,7 +94,7 @@
               <a
                 href="https://github.com/habiboy7"
                 target="_blank"
-                class="hover:text-gray-400 transition-colors"
+                class="hover:text-white transition-colors text-gray-400"
                 >GitHub</a
               >
             </li>
@@ -76,11 +102,18 @@
               <a
                 href="https://linkedin.com/in/muhammadkhoerulhabibi"
                 target="_blank"
-                class="hover:text-gray-400 transition-colors"
+                class="hover:text-white transition-colors text-gray-400"
                 >LinkedIn</a
               >
             </li>
-            <li><a href="#" class="hover:text-gray-400 transition-colors">Instagram</a></li>
+            <li>
+              <a
+                href="https://www.instagram.com/mkhabibii_"
+                target="_blank"
+                class="hover:text-white transition-colors text-gray-400"
+                >Instagram</a
+              >
+            </li>
           </ul>
         </div>
 
@@ -88,28 +121,29 @@
         <div class="lg:col-span-4 flex flex-col justify-between items-start lg:items-end">
           <div class="w-full">
             <p
-              class="font-manrope text-[9px] md:text-[14px] uppercase tracking-[0.4em] text-gray-400 mb-6 md:mb-10 text-left lg:text-right"
+              class="font-sofia font-semibold text-[9px] md:text-[1.5rem] uppercase tracking-tight mb-6 md:mb-8 text-left lg:text-right"
             >
               Get in touch
             </p>
-            <div class="relative group">
+            <div class="relative mt-2">
               <input
                 type="email"
+                v-model="visitorEmail"
                 placeholder="Your email address"
-                class="w-full bg-transparent border-b border-gray-800 py-3 md:py-4 outline-none font-manrope focus:border-white transition-colors pr-12 text-white text-sm md:text-base"
+                class="w-full bg-transparent border-b border-neutral-800 py-3 md:py-4 outline-none font-manrope focus:border-transparent transition-colors pr-24 text-white text-sm md:text-base peer"
+                @keyup.enter="handleSendEmail"
               />
+              <span
+                class="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-300 peer-focus:w-full"
+              ></span>
+
               <button
-                class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-all transform hover:translate-x-1 uppercase text-[9px] md:text-[10px] font-bold tracking-widest flex items-center gap-2"
+                @click="handleSendEmail"
+                class="absolute right-0 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-all duration-300 uppercase text-[10px] md:text-[11px] font-extrabold tracking-widest flex items-center gap-2 group/btn"
               >
-                Send <span class="text-base md:text-lg">→</span>
+                <span class="font-manrope">Send</span>
               </button>
             </div>
-            <p
-              class="text-[8px] md:text-[10px] text-gray-400 mt-4 md:mt-6 font-mono uppercase tracking-widest text-left lg:text-right"
-            >
-              By sending, you agree to our
-              <a href="#" class="underline hover:text-white">Privacy Policy</a>
-            </p>
           </div>
         </div>
       </div>
@@ -149,7 +183,6 @@
         >
           Web Developer • Yogyakarta, Indonesia
         </div>
-        <div class="font-manrope text-[8px] md:text-[14px] text-gray-400 order-3">v.02</div>
       </div>
     </div>
 
@@ -186,6 +219,19 @@ const mouseX = ref(0)
 const mouseY = ref(0)
 const currentX = ref(0)
 const currentY = ref(0)
+const visitorEmail = ref('')
+
+const handleSendEmail = () => {
+  const email = visitorEmail.value.trim()
+  const myEmail = 'habiboy0607@gmail.com'
+  const subject = encodeURIComponent('Inquiry from Portfolio')
+  let bodyText = 'Hello Habibi,\n\nI would like to get in touch with you.'
+  if (email) {
+    bodyText += `\n\nVisitor Email: ${email}`
+  }
+  const body = encodeURIComponent(bodyText)
+  window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`
+}
 
 let velocityX = 0
 let velocityY = 0

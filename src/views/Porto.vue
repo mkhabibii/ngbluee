@@ -1,30 +1,31 @@
 <template>
-  <div class="relative w-full h-[300px] overflow-hidden bg-[#f3f3f3] will-change-transform">
+  <div class="relative w-full h-[160px] sm:h-[220px] md:h-[300px] overflow-hidden bg-[#f3f3f3] will-change-transform">
     <div
       class="absolute inset-0 bg-black z-0"
       style="clip-path: polygon(0 66%, 100% 14%, 100% 100%, 0% 100%)"
     ></div>
     <div
-      class="absolute left-[-30%] w-[160%] rotate-[-6deg] z-20 border-6 border-b-white"
-      style="top: 120px"
+      class="absolute left-[-30%] w-[160%] rotate-[-10deg] sm:rotate-[-6deg] z-20 border-b-[3px] sm:border-b-[6px] border-white top-[55px] sm:top-[85px] md:top-[120px] bg-black"
     >
-      <div class="flex whitespace-nowrap py-6 animate-[marquee-left_20s_linear_infinite]">
+      <div class="flex whitespace-nowrap animate-[marquee-left_20s_linear_infinite]"> 
         <template v-for="n in 10" :key="n">
-          <span class="flex items-center text-2xl font-extrabold text-white px-8 font-manrope">
+          <span class="flex items-center text-xs sm:text-lg md:text-2xl font-extrabold text-white py-2.5 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 font-manrope">
             We design, develop, and launch brands online
-            <span class="w-3 h-3 bg-white rounded-full mx-6"></span>
+            <span class="w-1.5 h-1.5 sm:w-3 sm:h-3 bg-white rounded-full mx-3 sm:mx-6"></span>
           </span>
         </template>
       </div>
     </div>
-    <div class="absolute left-[-30%] w-[160%] rotate-[6deg] z-30" style="top: 120px">
-      <div class="flex whitespace-nowrap py-6 animate-[marquee-right_20s_linear_infinite]">
+    <div 
+      class="absolute left-[-30%] w-[160%] rotate-[10deg] sm:rotate-[6deg] z-30 top-[55px] sm:top-[85px] md:top-[120px]"
+    >
+      <div class="flex whitespace-nowrap animate-[marquee-right_20s_linear_infinite]">
         <template v-for="n in 10" :key="n">
           <span
-            class="flex items-center text-2xl font-extrabold text-black py-5 px-8 bg-[#e9e9f2] font-manrope"
+            class="flex items-center text-xs sm:text-lg md:text-2xl font-extrabold text-black py-2.5 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 bg-[#e9e9f2] font-manrope"
           >
             Designed with purpose — Built to perform
-            <img src="/src/assets/img/star.png" class="w-6 h-6 mx-6" />
+            <img src="/src/assets/img/star.png" class="w-4 h-4 sm:w-6 sm:h-6 mx-3 sm:mx-6" />
           </span>
         </template>
       </div>

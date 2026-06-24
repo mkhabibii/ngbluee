@@ -3,7 +3,7 @@
     <div class="w-full px-4 sm:px-6 lg:px-12 relative">
       <!-- HERO TITLE  -->
       <div class="absolute top-12 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
-        <span class="sub-title block text-xl lg:text-4xl font-light mb-[-0.1em]"> Enthusiast </span>
+        <span class="sub-title block text-xl lg:text-4xl font-light mb-1 lg:mb-[-0.1em]"> Enthusiast </span>
 
         <div class="overflow-hidden px-3">
           <h1
@@ -14,7 +14,7 @@
         </div>
 
         <span
-          class="sub-title absolute right-0 text-sm lg:text-xl font-light leading-[0.5] tracking-[0.3em] font-semibold"
+          class="sub-title absolute right-0 text-sm lg:text-xl font-light leading-[0.5] tracking-[0.3em] font-semibold mt-1 lg:mt-[-0.1em]"
           >BASED IN YOGYAKARTA</span
         >
       </div>
