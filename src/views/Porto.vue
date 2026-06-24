@@ -5,7 +5,7 @@
       style="clip-path: polygon(0 66%, 100% 14%, 100% 100%, 0% 100%)"
     ></div>
     <div
-      class="absolute left-[-30%] w-[160%] rotate-[-10deg] sm:rotate-[-6deg] z-20 border-b-[3px] sm:border-b-[6px] border-white top-[55px] sm:top-[85px] md:top-[120px] bg-black"
+      class="absolute left-[-30%] w-[160%] rotate-[-6deg] sm:rotate-[-6deg] z-20 border-b-[3px] sm:border-b-[6px] border-white top-[46px] sm:top-[85px] md:top-[120px] bg-black"
     >
       <div class="flex whitespace-nowrap animate-[marquee-left_20s_linear_infinite]"> 
         <template v-for="n in 10" :key="n">
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div 
-      class="absolute left-[-30%] w-[160%] rotate-[10deg] sm:rotate-[6deg] z-30 top-[55px] sm:top-[85px] md:top-[120px]"
+      class="absolute left-[-30%] w-[160%] rotate-[6deg] sm:rotate-[6deg] z-30 top-[55px] sm:top-[85px] md:top-[120px]"
     >
       <div class="flex whitespace-nowrap animate-[marquee-right_20s_linear_infinite]">
         <template v-for="n in 10" :key="n">
@@ -61,6 +61,7 @@
     <div
       ref="wrapperRef"
       class="accordion-wrapper dark-zone relative -mx-4 sm:-mx-6 lg:-mx-12"
+      @mouseenter="onMouseEnter"
       @mousemove="onMouseMove"
       @mouseleave="onMouseLeave"
     >
@@ -467,6 +468,15 @@ const getSlug = (project) => {
   return slugify(project.title)
 }
 
+let cachedWrapperRect = null
+
+const onMouseEnter = () => {
+  const wrapper = wrapperRef.value
+  if (wrapper) {
+    cachedWrapperRect = wrapper.getBoundingClientRect()
+  }
+}
+
 const onMouseMove = (event) => {
   if (window.innerWidth < 1024) return
 
@@ -479,8 +489,11 @@ const onMouseMove = (event) => {
   const wrapper = wrapperRef.value
   if (!wrapper) return
 
-  const wrapperRect = wrapper.getBoundingClientRect()
-  const relativeX = event.clientX - wrapperRect.left
+  if (!cachedWrapperRect) {
+    cachedWrapperRect = wrapper.getBoundingClientRect()
+  }
+
+  const relativeX = event.clientX - cachedWrapperRect.left
 
   // Calculate dynamic boundaries based on current activeIndex
   const boundaries = []
@@ -494,7 +507,7 @@ const onMouseMove = (event) => {
       fraction = 0.48
     }
     accumulatedFraction += fraction
-    boundaries.push(accumulatedFraction * wrapperRect.width)
+    boundaries.push(accumulatedFraction * cachedWrapperRect.width)
   }
 
   // Find which column relativeX falls into
@@ -512,6 +525,7 @@ const onMouseMove = (event) => {
 }
 
 const onMouseLeave = () => {
+  cachedWrapperRect = null
   if (window.innerWidth < 1024) return
   if (leaveTimer) clearTimeout(leaveTimer)
   leaveTimer = setTimeout(() => {

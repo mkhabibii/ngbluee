@@ -11,6 +11,8 @@
         class="menu-btn flex items-center gap-2 rounded-full border px-5 py-2.5 font-manrope text-base font-semibold cursor-pointer"
         :class="isDark ? 'bg-white text-black' : 'bg-black text-white'"
         @click="openMenu"
+        @mouseenter="initSounds"
+        @focus="initSounds"
       >
         Menu
         <span class="inline-block w-2 h-2 rounded-full" :class="isDark ? 'bg-black' : 'bg-white'" />
@@ -94,6 +96,8 @@
               :key="s.label"
               :href="s.href"
               target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="s.label"
               class="flex h-9 w-9 items-center justify-center rounded-full transition-colors overflow-hidden"
               :class="
                 isDark
@@ -142,19 +146,23 @@ import { Howl } from 'howler'
 const menuOpenSfx = '/sounds/open.mp3'
 const menuCloseSfx = '/sounds/close.mp3'
 
-const openSound = new Howl({
-  src: [menuOpenSfx],
-  volume: 0.5,
-  preload: true,
-})
+let openSound = null
+let closeSound = null
 
-const closeSound = new Howl({
-  src: [menuCloseSfx],
-  volume: 0.5,
-  preload: true,
-})
+const initSounds = () => {
+  if (openSound) return
+  openSound = new Howl({
+    src: [menuOpenSfx],
+    volume: 0.5,
+  })
+  closeSound = new Howl({
+    src: [menuCloseSfx],
+    volume: 0.5,
+  })
+}
 
 const playSound = (type) => {
+  initSounds()
   type === 'open' ? openSound.play() : closeSound.play()
 }
 
@@ -421,6 +429,9 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+
+  // Lazy prefetch audio files after initial page loads to optimize Performance metrics
+  setTimeout(initSounds, 4000)
 
   gsap.to([navbar.value, brandName.value], {
     opacity: 1,

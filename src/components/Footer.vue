@@ -94,6 +94,7 @@
               <a
                 href="https://github.com/habiboy7"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="hover:text-white transition-colors text-gray-400"
                 >GitHub</a
               >
@@ -102,6 +103,7 @@
               <a
                 href="https://linkedin.com/in/muhammadkhoerulhabibi"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="hover:text-white transition-colors text-gray-400"
                 >LinkedIn</a
               >
@@ -110,6 +112,7 @@
               <a
                 href="https://www.instagram.com/mkhabibii_"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="hover:text-white transition-colors text-gray-400"
                 >Instagram</a
               >
@@ -129,6 +132,8 @@
               <input
                 type="email"
                 v-model="visitorEmail"
+                id="footer-email-input"
+                aria-label="Your email address"
                 placeholder="Your email address"
                 class="w-full bg-transparent border-b border-neutral-800 py-3 md:py-4 outline-none font-manrope focus:border-transparent transition-colors pr-24 text-white text-sm md:text-base peer"
                 @keyup.enter="handleSendEmail"
@@ -139,6 +144,7 @@
 
               <button
                 @click="handleSendEmail"
+                aria-label="Send email"
                 class="absolute right-0 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-all duration-300 uppercase text-[10px] md:text-[11px] font-extrabold tracking-widest flex items-center gap-2 group/btn"
               >
                 <span class="font-manrope">Send</span>
@@ -253,18 +259,22 @@ const updateOffset = () => {
   }
 }
 
+let cachedFooterRect = null
+
 const handleMouseMove = (e) => {
-  const rect = e.currentTarget.getBoundingClientRect()
-  mouseX.value = e.clientX - rect.left
-  mouseY.value = e.clientY - rect.top
+  if (!cachedFooterRect) {
+    cachedFooterRect = e.currentTarget.getBoundingClientRect()
+  }
+  mouseX.value = e.clientX - cachedFooterRect.left
+  mouseY.value = e.clientY - cachedFooterRect.top
 }
 
 const handleMouseEnter = (e) => {
   isHovering.value = true
   updateOffset()
-  const rect = e.currentTarget.getBoundingClientRect()
-  const startX = e.clientX - rect.left
-  const startY = e.clientY - rect.top
+  cachedFooterRect = e.currentTarget.getBoundingClientRect()
+  const startX = e.clientX - cachedFooterRect.left
+  const startY = e.clientY - cachedFooterRect.top
   currentX.value = startX
   currentY.value = startY
   mouseX.value = startX
@@ -276,6 +286,7 @@ const handleMouseEnter = (e) => {
 
 const handleMouseLeave = () => {
   isHovering.value = false
+  cachedFooterRect = null
   gsap.to(fillText.value, { clipPath: 'circle(0px at 50% 50%)', opacity: 0, duration: 0.6 })
 }
 

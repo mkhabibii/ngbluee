@@ -244,6 +244,7 @@
               v-if="project.demo_url"
               :href="project.demo_url"
               target="_blank"
+              rel="noopener noreferrer"
               class="font-manrope flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 shadow-md hover:shadow-lg text-center"
             >
               <span>Live Website</span>
@@ -264,6 +265,7 @@
               v-if="project.github_url"
               :href="project.github_url"
               target="_blank"
+              rel="noopener noreferrer"
               class="flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-white/20 bg-white/5 text-white font-bold text-xs uppercase tracking-wider hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-center"
             >
               <span>Github Code</span>

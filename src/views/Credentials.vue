@@ -170,6 +170,7 @@
                     v-if="selectedCert.credential_url"
                     :href="selectedCert.credential_url"
                     target="_blank"
+                    rel="noopener noreferrer"
                     class="font-manrope bg-black hover:bg-neutral-800 text-[#f6f4ee] px-8 py-3 rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
                   >
                     Verify Credential
