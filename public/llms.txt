@@ -1,0 +1,15 @@
+# Muhammad Khoerul Habibi - Portfolio
+
+> Web Developer and UI/UX Designer based in Yogyakarta, Indonesia.
+
+Muhammad Khoerul Habibi is a Web Developer specializing in building modern web applications using Vue, Laravel, Tailwind CSS, and GSAP.
+
+## Navigation Links
+
+- [Home](https://mkhabibi.web.id) - Main page and overview.
+- [Essence](https://mkhabibi.web.id/#about) - About me, core tech, and services.
+- [Showcase](https://mkhabibi.web.id/#showcase) - Portfolio projects showcase.
+- [Credentials](https://mkhabibi.web.id/#credential) - Professional certifications and credentials.
+- [Contact Email](mailto:habiboy0607@gmail.com) - Direct contact mail client link.
+- [GitHub Profile](https://github.com/habiboy7) - GitHub repositories and open-source contributions.
+- [LinkedIn Profile](https://linkedin.com/in/muhammadkhoerulhabibi) - Professional networking profile.

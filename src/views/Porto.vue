@@ -25,7 +25,7 @@
             class="flex items-center text-xs sm:text-lg md:text-2xl font-extrabold text-black py-2.5 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 bg-[#e9e9f2] font-manrope"
           >
             Designed with purpose — Built to perform
-            <img src="/src/assets/img/star.png" class="w-4 h-4 sm:w-6 sm:h-6 mx-3 sm:mx-6" />
+            <img src="/src/assets/img/star.png" class="w-4 h-4 sm:w-6 sm:h-6 mx-3 sm:mx-6" alt="star"/>
           </span>
         </template>
       </div>
