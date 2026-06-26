@@ -117,7 +117,7 @@
             :ref="(el) => setInactiveRef(el, index)"
             class="inactive-state flex flex-row lg:flex-col items-center lg:items-start gap-3 lg:gap-2 pointer-events-none"
           >
-            <span class="font-sofia text-sm lg:text-lg font-normal tracking-wider text-neutral-400"
+            <span class="font-sofia text-sm lg:text-2xl font-semibold tracking-wider"
               >SC-{{ index + 1 }}</span
             >
             <span

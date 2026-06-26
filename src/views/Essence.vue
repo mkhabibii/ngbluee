@@ -75,7 +75,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         <!-- About Me Profile (Top Left, Spans 2 Cols) -->
         <div
-          class="col-span-1 md:col-span-2 lg:col-span-2 bg-black text-white border border-white/50 rounded-lg p-6 sm:p-10 flex flex-col justify-between hover:scale-[1.015] hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
+          class="col-span-1 md:col-span-2 lg:col-span-2 bg-black text-white border border-white/50 rounded-lg p-6 sm:p-10 flex flex-col justify-between hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
         >
           <div>
             <h3
@@ -98,7 +98,7 @@
 
         <!-- Core Tech Stack (Top Right, Spans 1 Col) -->
         <div
-          class="col-span-1 bg-neutral-950 text-white border border-neutral-800/80 rounded-lg p-6 sm:p-8 flex flex-col justify-between hover:scale-[1.015] hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
+          class="col-span-1 bg-neutral-950 text-white border border-neutral-800/80 rounded-lg p-6 sm:p-8 flex flex-col justify-between hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
         >
           <div>
             <h4
@@ -119,9 +119,9 @@
           </div>
         </div>
 
-        <!-- Hire Me / CV Button (Bottom Left, Spans 1 Col) -->
+        <!-- Hire Me CV Button (Bottom Left, Spans 1 Col) -->
         <div
-          class="col-span-1 bg-neutral-950 text-white border border-neutral-800/80 rounded-lg p-6 sm:p-8 flex flex-col justify-between hover:scale-[1.015] hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
+          class="col-span-1 bg-neutral-950 text-white border border-neutral-800/80 rounded-lg p-6 sm:p-8 flex flex-col justify-between hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
         >
           <div>
             <h4
@@ -181,7 +181,7 @@
 
         <!-- My Services (Bottom Right, Spans 2 Cols) -->
         <div
-          class="col-span-1 md:col-span-2 lg:col-span-2 bg-neutral-950 text-white border border-neutral-800/80 rounded-lg p-6 sm:p-10 flex flex-col justify-between hover:scale-[1.015] hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
+          class="col-span-1 md:col-span-2 lg:col-span-2 bg-neutral-950 text-white border border-neutral-800/80 rounded-lg p-6 sm:p-10 flex flex-col justify-between hover:border-neutral-700 transition-all duration-300 group shadow-xl shadow-black/5"
         >
           <div>
             <h4
